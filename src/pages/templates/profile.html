@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
-{% block title %}Авторизация{% endblock title %}
+{% block title %}Личный кабинет{% endblock title %}
 
 {% block content %}
 <div style="text-align: center;">
-    <h1>Авторизация</h1>
+    <h1>Личный кабинет</h1>
 </div>
 
 <form action="" method="post" class="form container" style="max-width: 60%; flex-direction: column;">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
-    <input type="hidden" name="next" value="{{ next }}" />
-    <button type="submit" class="btn btn-primary">Войти</button>
+    <button type="submit" class="btn btn-outline-success">Сохранить</button>
     {% endbuttons %}
 </form>
 {% endblock content %}

@@ -6,11 +6,10 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-        {% if request.user.is_authenticated %}
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            {% if request.user.is_authenticated %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'pages:login' %}">Главная <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'pages:home' %}">Главная <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Работенка для меня</a>
@@ -30,12 +29,12 @@
         {% endif %}
         <span class="form-inline my-2 my-lg-0">
             {% if request.user.is_authenticated %}
-            Привет, {{user.first_name}}
+            Привет, <a class="link-secondary" href="{%url 'pages:profile' %}">{{user.first_name}}</a>
             <a href="{% url 'pages:logout' %}" class="btn btn-outline-danger" style="margin-left: 10px;">Выход</a>
             {% else %}
-            <div class="login__left">
-                <a href="{% url 'pages:login' %}" class="btn btn-secondary">Войти</a>
-                <a href="{% url 'pages:login' %}" class="btn btn-info ">Регистрация</a>
+            <div>
+                <a href="{% url 'pages:login' %}" class="btn btn-outline-success">Войти</a>
+                <a href="{% url 'pages:register' %}" class="btn btn-outline-primary">Регистрация</a>
             </div>
 
             {% endif %}
