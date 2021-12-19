@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href=""><i class="fas fa-boxes"></i>Курсач3000</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        {% if request.user.is_authenticated %}
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'pages:login' %}">Главная <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Работенка для меня</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Список предложений</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">Анализ рынка</a>
+            </li>
+            {% if request.user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link " href="/admin">Админка</a>
+            </li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        <span class="form-inline my-2 my-lg-0">
+            {% if request.user.is_authenticated %}
+            Привет, {{user.first_name}}
+            <a href="{% url 'pages:logout' %}" class="btn btn-outline-danger" style="margin-left: 10px;">Выход</a>
+            {% else %}
+            <div class="login__left">
+                <a href="{% url 'pages:login' %}" class="btn btn-secondary">Войти</a>
+                <a href="{% url 'pages:login' %}" class="btn btn-info ">Регистрация</a>
+            </div>
+
+            {% endif %}
+
+        </span>
+    </div>
+</nav>

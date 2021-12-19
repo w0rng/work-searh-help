@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block title %}Авторизация{% endblock title %}
+
+{% block content %}
+<div class="">
+    <div style="text-align: center;">
+        <h1>Авторизация</h1>
+    </div>
+
+    <form action="" method="post" class="form ">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <p><a href="{% url 'pages:login' %}">Забыли пароль?</a></p>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}
