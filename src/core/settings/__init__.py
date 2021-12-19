@@ -19,6 +19,7 @@ include(
     'media.py',
     'templates.py',
     'auth.py',
+    'messages.py'
 )
 
 
