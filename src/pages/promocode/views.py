@@ -17,6 +17,7 @@ class PromocodeView(CreateView):
         try:
             self.object = Promocode.objects.get(code=code)
             request.user.balance += self.object.price
+            request.user.save()
             self.object.activate()
             messages.success(request, 'Промокод успешно активирован')
         except ObjectDoesNotExist:

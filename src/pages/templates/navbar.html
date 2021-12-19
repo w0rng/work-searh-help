@@ -27,18 +27,28 @@
             {% endif %}
         </ul>
         {% endif %}
+        {% if request.user.is_authenticated %}
         <span class="form-inline my-2 my-lg-0">
-            {% if request.user.is_authenticated %}
-            Привет,&nbsp;<a class="link-secondary" href="{%url 'pages:profile' %}">{{user.first_name}}</a>
-            <a href="{% url 'pages:logout' %}" class="btn btn-outline-danger" style="margin-left: 10px;">Выход</a>
-            {% else %}
-            <div>
-                <a href="{% url 'pages:login' %}" class="btn btn-outline-primary">Войти</a>
-                <a href="{% url 'pages:register' %}" class="btn btn-outline-success">Попробовать бесплатно</a>
-            </div>
-
-            {% endif %}
-
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item dropleft">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        {{user.first_name}}
+                    </a>
+                    <div class="dropdown-menu" style="margin: auto;">
+                        <a class="dropdown-item" href="{% url 'pages:promocode' %}">Промокоды</a>
+                        <a class="dropdown-item" href="{% url 'pages:profile' %}">Личный кабинет</a>
+                        <a class="dropdown-item">Баланс: {{user.balance}} </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'pages:logout' %}">Выход</a>
+                    </div>
+                </li>
+            </ul>
         </span>
+        {% else %}
+        <span>
+            <a href="{% url 'pages:login' %}" class="btn btn-outline-primary">Войти</a>
+            <a href="{% url 'pages:register' %}" class="btn btn-outline-success">Попробовать бесплатно</a>
+        </span>
+        {% endif %}
     </div>
 </nav>
