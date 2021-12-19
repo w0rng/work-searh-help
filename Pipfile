@@ -16,6 +16,8 @@ whitenoise = "==5.3.0"
 django-lifecycle = "*"
 django-filter = "*"
 django-bootstrap4 = "*"
+django-heroku = "*"
+psycopg2 = "*"
 
 [dev-packages]
 pytest-django = "*"
