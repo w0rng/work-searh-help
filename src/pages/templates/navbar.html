@@ -29,7 +29,7 @@
         {% endif %}
         <span class="form-inline my-2 my-lg-0">
             {% if request.user.is_authenticated %}
-            Привет, <a class="link-secondary" href="{%url 'pages:profile' %}">{{user.first_name}}</a>
+            Привет,&nbsp;<a class="link-secondary" href="{%url 'pages:profile' %}">{{user.first_name}}</a>
             <a href="{% url 'pages:logout' %}" class="btn btn-outline-danger" style="margin-left: 10px;">Выход</a>
             {% else %}
             <div>
