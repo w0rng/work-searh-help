@@ -6,7 +6,11 @@
 
 <div>
     <div style="text-align: center;">
+        {% if not request.user.resume %}
         <h2>Ухты пухты! У тебя еще нет резюме</h2>
+        {% else %}
+        <h2>Редактирование резюме</h2>
+        {% endif %}
     </div>
 
     <form action="" method="post" class="form container">

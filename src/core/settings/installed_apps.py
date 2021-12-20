@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'pages',
     'apps.promocode',
     'apps.resume',
+    'apps.vacancy',
 ]
 
 if settings.DEBUG:
