@@ -9,4 +9,4 @@ class PromocodeAdmin(admin.ModelAdmin):
 
 @admin.register(Activation)
 class ActivationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('created_at', 'user', 'promocode')
