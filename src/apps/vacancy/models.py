@@ -8,3 +8,4 @@ class Vacancy(models.Model):
     name = models.CharField('Название', max_length=255)
     price = PriceField('Зарплата')
     tags = models.ManyToManyField(Tag, related_name='vacancies', verbose_name='Навыки')
+    description = models.TextField('Описание')
