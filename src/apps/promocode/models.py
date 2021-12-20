@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django_lifecycle import AFTER_CREATE, BEFORE_CREATE, LifecycleModel, hook
-from helpers.models import CreatedModel
+from helpers.models import CreatedModel, PriceField
 
 User = get_user_model()
 
@@ -14,7 +14,7 @@ class Promocode(LifecycleModel, models.Model):
     code = models.CharField('Промокод', max_length=32, unique=True)
     max_activations = models.PositiveSmallIntegerField('Максимум активаций', default=1)
     count_activations = models.PositiveSmallIntegerField('Всего активаций', default=0)
-    price = models.DecimalField('Цена', max_digits=5, decimal_places=2)
+    price = PriceField('Цена')
 
     objects = PromocodeManager()
 

@@ -1,6 +1,7 @@
 from django.db import models
 from helpers.models import CreatedModel, UUIDModel
 from django.contrib.auth import get_user_model
+from helpers.models import PriceField
 
 
 User = get_user_model()
@@ -17,7 +18,7 @@ class Resume(UUIDModel, CreatedModel):
     user = models.OneToOneField(User, models.CASCADE, verbose_name='Пользователь', related_name='resume')
     name = models.CharField('Должность', max_length=512)
     tags = models.ManyToManyField(Tag, related_name='resumes', verbose_name='Навыки')
-    price = models.DecimalField('Желаемая зарплата', max_digits=10, decimal_places=2)
+    price = PriceField('Желаемая зарплата')
 
     def __str__(self):
         return f'{self.user} {self.name}'
