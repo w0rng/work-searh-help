@@ -3,7 +3,7 @@ from django.urls import path
 from pages.user import views as user_views
 from pages.features import views as feature_views
 from pages.promocode import views as promocode_views
-
+from pages.resume import views as resume_views
 
 app_name = 'pages'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('register/', user_views.RegistrationView.as_view(), name='register'),
     path('profile/', user_views.ProfileView.as_view(), name='profile'),
     path('promocode/', promocode_views.PromocodeView.as_view(), name='promocode'),
+    path('resume/', resume_views.ResumeView.as_view(), name='resume')
 ]

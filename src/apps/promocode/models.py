@@ -1,10 +1,10 @@
-from enum import unique
 from hashlib import md5
-from django.core.exceptions import PermissionDenied
-from django.db import models
-from django_lifecycle import LifecycleModel, hook, BEFORE_CREATE, AFTER_CREATE
+
 from apps.promocode.manager import PromocodeManager
 from django.contrib.auth import get_user_model
+from django.core.exceptions import PermissionDenied
+from django.db import models
+from django_lifecycle import AFTER_CREATE, BEFORE_CREATE, LifecycleModel, hook
 from helpers.models import CreatedModel
 
 User = get_user_model()

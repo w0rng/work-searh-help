@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block title %}{% endblock title %}
+{% block content %}
+
+
+<div>
+    <div style="text-align: center;">
+        <h2>Ухты пухты! У тебя еще нет резюме</h2>
+    </div>
+
+    <form action="" method="post" class="form container">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">Создать</button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

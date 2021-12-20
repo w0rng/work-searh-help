@@ -12,7 +12,11 @@
                 <a class="nav-link" href="{% url 'pages:home' %}">Главная <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
+                {% if request.user.resume %}
                 <a class="nav-link" href="#">Работенка для меня</a>
+                {% else %}
+                <a class="nav-link" href="{% url 'pages:resume' %}">Работенка для меня</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Список предложений</a>
