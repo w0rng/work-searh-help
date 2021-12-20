@@ -13,9 +13,20 @@
 
     <form action="" method="post" class="form container">
         {% csrf_token %}
-        {% for vacancy in object_list %}
-        <li>{{ vacancy.name }} за {{vacancy.price}} рублей</li>
-        {% endfor %}
-    </form>
+
+        <div class="row">
+            {% for vacancy in object_list %}
+            <div class="col-sm-6" style="margin-bottom: 30px;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vacancy.name }}</h5>
+                        <p class="card-text">Платят {{vacancy.price}} рублей</p>
+                        <a href="#" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
 </div>
 {% endblock content %}
