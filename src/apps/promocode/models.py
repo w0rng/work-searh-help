@@ -5,7 +5,7 @@ from django.db import models
 from django_lifecycle import LifecycleModel, hook, BEFORE_CREATE, AFTER_CREATE
 from apps.promocode.manager import PromocodeManager
 from django.contrib.auth import get_user_model
-
+from helpers.models import CreatedModel
 
 User = get_user_model()
 
@@ -36,7 +36,7 @@ class Promocode(LifecycleModel, models.Model):
         self.count_activations += 1
         self.save()
 
-class Activation(LifecycleModel, models.Model):
+class Activation(LifecycleModel, CreatedModel):
     user = models.ForeignKey(User, models.CASCADE)
     promocode = models.ForeignKey(Promocode, models.CASCADE)
 

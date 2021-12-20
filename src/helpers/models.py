@@ -8,3 +8,10 @@ class UUIDModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class CreatedModel(models.Model):
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+
+    class Meta:
+        abstract = True
