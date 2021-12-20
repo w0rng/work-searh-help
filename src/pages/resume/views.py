@@ -13,4 +13,6 @@ class ResumeView(CreateView, UpdateView):
         return super().form_valid(form)
 
     def get_object(self, *args):
-        return self.request.user.resume
+        if hasattr(self.request.user, 'resume'):
+            return self.request.user.resume
+        return None
