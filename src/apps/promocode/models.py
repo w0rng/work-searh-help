@@ -1,9 +1,13 @@
+from enum import unique
 from hashlib import md5
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django_lifecycle import LifecycleModel, hook, BEFORE_CREATE
 from apps.promocode.manager import PromocodeManager
+from django.contrib.auth import get_user_model
 
+
+User = get_user_model()
 
 
 class Promocode(LifecycleModel, models.Model):
@@ -31,3 +35,17 @@ class Promocode(LifecycleModel, models.Model):
             raise PermissionDenied('Достигнуто максимальное число активаций')
         self.count_activations += 1
         self.save()
+
+class Activation(models.Model):
+    user = models.ForeignKey(User, models.CASCADE)
+    promocode = models.ForeignKey(Promocode, models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Активация'
+        verbose_name_plural = 'Активации'
+        unique_together = ('user', 'promocode')
+
+    def activate(self):
+        self.promocode.activate()
+        self.user.balance += self.promocode.price
+        self.user.save()

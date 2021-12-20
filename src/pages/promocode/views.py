@@ -1,10 +1,11 @@
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied 
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from pages.promocode.forms import PromocodeForm
-from apps.promocode.models import Promocode
+from apps.promocode.models import Promocode, Activation
 from django.contrib import messages
+from django.db import IntegrityError
 
 
 class PromocodeView(CreateView):
@@ -16,13 +17,13 @@ class PromocodeView(CreateView):
         code = request.POST['code']
         try:
             self.object = Promocode.objects.get(code=code)
-            self.object.activate()
-            request.user.balance += self.object.price
-            request.user.save()
+            Activation.objects.create(user=request.user, promocode=self.object).activate()
             messages.success(request, 'Промокод успешно активирован')
         except ObjectDoesNotExist:
             messages.error(request, 'Промокод не найден')
         except PermissionDenied:
             messages.warning(request, 'Количество активаций промокода закончилось')
+        except IntegrityError:
+            messages.error(request, 'Вы уже активировали этот промокод')
 
         return HttpResponseRedirect(self.success_url)
