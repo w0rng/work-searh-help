@@ -18,10 +18,10 @@
                 <a class="nav-link" href="{% url 'pages:resume' %}">Работенка для меня</a>
                 {% endif %}
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Список предложений</a>
+            <li class="nav-item {% if request.path == '/vacancies/all/' %} active {% endif %}">
+                <a class="nav-link" href="{% url 'pages:all_vacancies' %}">Список предложений</a>
             </li>
-            <li class="nav-item">
+            <li class=" nav-item">
                 <a class="nav-link " href="#">Анализ рынка</a>
             </li>
             {% if request.user.is_staff %}
@@ -39,10 +39,9 @@
                         {{user.first_name}}
                     </a>
                     <div class="dropdown-menu" style="margin: auto;">
-                        <a class="dropdown-item" href="{% url 'pages:promocode' %}">Промокоды</a>
                         <a class="dropdown-item" href="{% url 'pages:profile' %}">Личный кабинет</a>
                         <a class="dropdown-item" href="{% url 'pages:resume' %}">Мое резюме</a>
-                        <a class="dropdown-item">Баланс: {{user.balance}} </a>
+                        <a class="dropdown-item" href="{% url 'pages:promocode' %}">Баланс: {{user.balance}} </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'pages:logout' %}">Выход</a>
                     </div>

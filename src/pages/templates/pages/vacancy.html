@@ -8,7 +8,13 @@
 
 <div>
     <div style="text-align: center;">
-        <h1>Вакансии для тебя</h1>
+        <h1>
+            {% if request.path == '/vacancies/all/' %}
+            Все вакансии
+            {% else %}
+            Вакансии для тебя
+            {% endif %}
+        </h1>
     </div>
 
     <form action="" method="post" class="form container">
