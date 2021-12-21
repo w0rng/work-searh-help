@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from apps.user.exceptions import NotEnoughMoney
 from django_lifecycle import LifecycleModelMixin
 from apps.helpers.models import UUIDModel
 from django.db import models
@@ -17,3 +18,9 @@ class User(LifecycleModelMixin, UUIDModel, AbstractUser):
 
     class Meta(AbstractUser.Meta):
         pass
+
+    def update_balance(self, count):
+        if count < 0 and self.balance < abs(count):
+            raise NotEnoughMoney('Недостаточно средств')
+        self.balance += count
+        self.save()

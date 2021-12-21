@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'apps.promocode',
     'apps.resume',
     'apps.vacancy',
+    'apps.subscription'
 ]
 
 if settings.DEBUG:
