@@ -25,7 +25,7 @@ class Subscription(UUIDModel):
 
 class Subscriber(LifecycleModelMixin, UUIDModel):
     user = models.OneToOneField(User, verbose_name='Подписчик', on_delete=models.CASCADE, related_name='subscriber')
-    subscription = models.OneToOneField(Subscription, verbose_name='Подписка', on_delete=models.SET_DEFAULT, default=Subscription.get_default())
+    subscription = models.OneToOneField(Subscription, verbose_name='Подписка', on_delete=models.SET_DEFAULT, default=Subscription.get_default)
 
     class Meta:
         unique_together = ('user', 'subscription')
