@@ -12,7 +12,7 @@ class Subscription(UUIDModel):
 
     @classmethod
     def get_default(cls):
-        return cls.objects.get_or_create(name='Free', price=0, level=0)[0]
+        return cls.objects.get_or_create(name='Free', price=0)[0]
 
     class Meta:
         verbose_name = 'Подписка'
