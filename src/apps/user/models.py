@@ -1,10 +1,12 @@
+from django.apps import apps
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django_lifecycle import LifecycleModelMixin
 from django_lifecycle.decorators import hook
 from django_lifecycle.hooks import AFTER_CREATE
-from apps.user.exceptions import NotEnoughMoney
-from django_lifecycle import LifecycleModelMixin
+
 from apps.helpers.models import UUIDModel
-from django.db import models
+from apps.user.exceptions import NotEnoughMoney
 
 
 class UserRole(models.TextChoices):
@@ -29,5 +31,7 @@ class User(LifecycleModelMixin, UUIDModel, AbstractUser):
 
     @hook(AFTER_CREATE)
     def create_subscribe(self):
+        if not apps.ready:
+            return
         from apps.subscription.models import Subscriber
         Subscriber.objects.create(user=self)
