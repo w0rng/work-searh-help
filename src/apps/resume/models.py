@@ -1,7 +1,6 @@
 from django.db import models
-from helpers.models import CreatedModel, UUIDModel
+from apps.helpers.models import CreatedModel, UUIDModel, PriceField
 from django.contrib.auth import get_user_model
-from helpers.models import PriceField
 
 
 User = get_user_model()

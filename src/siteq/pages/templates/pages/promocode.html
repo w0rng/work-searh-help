@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block title %}Промокоды{% endblock title %}
+{% block content %}
+
+
+<div>
+    <div style="text-align: center;">
+        <h1>Активация промокода</h1>
+    </div>
+
+    <form action="" method="post" class="form container">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">Активировать</button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

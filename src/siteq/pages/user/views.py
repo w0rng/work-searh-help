@@ -1,7 +1,8 @@
+from siteq.pages.user import forms
+
+from apps.user.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
-from pages.user import forms
-from apps.user.models import User
 
 
 class RegistrationView(CreateView):

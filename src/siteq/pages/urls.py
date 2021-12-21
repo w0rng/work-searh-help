@@ -1,10 +1,10 @@
 from django.contrib.auth import views
 from django.urls import path
-from pages.user import views as user_views
-from pages.features import views as feature_views
-from pages.promocode import views as promocode_views
-from pages.resume import views as resume_views
-from pages.vacancy import views as vacancy_views
+from siteq.pages.user import views as user_views
+from siteq.pages.features import views as feature_views
+from siteq.pages.promocode import views as promocode_views
+from siteq.pages.resume import views as resume_views
+from siteq.pages.vacancy import views as vacancy_views
 
 app_name = 'pages'
 

@@ -1,7 +1,6 @@
-from re import L
 from django.db import models
 from apps.resume.models import Tag
-from helpers.models import PriceField
+from apps.helpers.models import PriceField
 
 
 class Vacancy(models.Model):

@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
-{% block title %}Регистрация
-
+{% block title %}
+Резюме
 {% endblock title %}
 {% block content %}
 
 
 <div>
     <div style="text-align: center;">
-        <h1>Регистрация</h1>
+        {% if not request.user.resume %}
+        <h2>Ухты пухты! У тебя еще нет резюме</h2>
+        {% else %}
+        <h2>Редактирование резюме</h2>
+        {% endif %}
     </div>
 
     <form action="" method="post" class="form container">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
-        <button type="submit" class="btn btn-primary">Регистрация</button>
+        <button type="submit" class="btn btn-primary">Создать</button>
         {% endbuttons %}
     </form>
 </div>

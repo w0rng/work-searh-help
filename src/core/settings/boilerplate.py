@@ -9,4 +9,4 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 ALLOWED_HOSTS = ['*']
 
-TEST_RUNNER = 'helpers.disable_test_command_runner.DisableTestCommandRunner'
+TEST_RUNNER = 'apps.helpers.disable_test_command_runner.DisableTestCommandRunner'

@@ -3,7 +3,7 @@
 from decimal import Decimal
 import django.core.validators
 from django.db import migrations
-import helpers.models
+import apps.helpers.models
 
 
 class Migration(migrations.Migration):
@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='vacancy',
             name='price',
-            field=helpers.models.PriceField(decimal_places=2, max_digits=10, validators=[django.core.validators.MinValueValidator(Decimal('0.0')), django.core.validators.MinValueValidator(Decimal('0.0')), django.core.validators.MinValueValidator(Decimal('0.0'))], verbose_name='Зарплата'),
+            field=apps.helpers.models.PriceField(decimal_places=2, max_digits=10, validators=[django.core.validators.MinValueValidator(Decimal('0.0')), django.core.validators.MinValueValidator(Decimal('0.0')), django.core.validators.MinValueValidator(Decimal('0.0'))], verbose_name='Зарплата'),
         ),
     ]

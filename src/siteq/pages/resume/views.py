@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
-from pages.resume import forms
+from siteq.pages.resume import forms
 
 
 class ResumeView(CreateView, UpdateView):

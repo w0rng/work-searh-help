@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from pages.promocode.forms import PromocodeForm
+from siteq.pages.promocode.forms import PromocodeForm
 from apps.promocode.models import Promocode, Activation
 from django.contrib import messages
 from django.db import IntegrityError

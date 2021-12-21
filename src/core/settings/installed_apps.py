@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'bootstrap4',
 
     'apps.user',
-    'pages',
+    'siteq.pages',
     'apps.promocode',
     'apps.resume',
     'apps.vacancy',

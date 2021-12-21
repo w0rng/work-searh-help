@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django_lifecycle import AFTER_CREATE, BEFORE_CREATE, LifecycleModel, hook
-from helpers.models import CreatedModel, PriceField
+from apps.helpers.models import CreatedModel, PriceField
 
 User = get_user_model()
 
