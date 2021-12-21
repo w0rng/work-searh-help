@@ -9,7 +9,6 @@ User = get_user_model()
 class Subscription(UUIDModel):
     name = models.CharField('Название', max_length=50, unique=True)
     price = PriceField('Цена')
-    level = models.PositiveSmallIntegerField('Уровень', default=0)
 
     @classmethod
     def get_default(cls):
