@@ -21,8 +21,13 @@
             <li class="nav-item {% if request.path == '/vacancies/all/' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'pages:all_vacancies' %}">Список предложений</a>
             </li>
+            {% if request.user.subscriber.subscription.level > 0 %}
             <li class=" nav-item">
                 <a class="nav-link disabled" href="#">Анализ рынка</a>
+            </li>
+            {% endif %}
+            <li class=" nav-item">
+                <a class="nav-link disabled" href="#">Подписки</a>
             </li>
             {% if request.user.is_staff %}
             <li class="nav-item">

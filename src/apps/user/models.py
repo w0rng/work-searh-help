@@ -1,4 +1,6 @@
 from django.contrib.auth.models import AbstractUser
+from django_lifecycle.decorators import hook
+from django_lifecycle.hooks import AFTER_CREATE
 from apps.user.exceptions import NotEnoughMoney
 from django_lifecycle import LifecycleModelMixin
 from apps.helpers.models import UUIDModel
@@ -24,3 +26,8 @@ class User(LifecycleModelMixin, UUIDModel, AbstractUser):
             raise NotEnoughMoney('Недостаточно средств')
         self.balance += count
         self.save()
+
+    @hook(AFTER_CREATE)
+    def create_subscribe(self):
+        from apps.subscription.models import Subscriber
+        Subscriber.objects.create(user=self)
