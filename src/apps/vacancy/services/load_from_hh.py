@@ -13,8 +13,8 @@ class Loader:
         data = requests.get(url).json()
         print(data, flush=True)
         for vacancy in data.get('items', []):
-            tags = re.findall('[a-zA-Z]+', vacancy['snippet']['requirement'])
-            tags = [t for t in tags if t != 'highlighttext']
+            tags = re.findall('[a-zA-Z]{2,}', vacancy['snippet']['requirement'])
+            tags = [t.lower() for t in tags if t != 'highlighttext']
             tags = [Tag.objects.get_or_create(name=t)[0] for t in tags]
 
             vac = Vacancy.objects.get_or_create(
