@@ -2,6 +2,9 @@ from django.db import models
 from apps.helpers.models import CreatedModel, UUIDModel
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
+from django_lifecycle import LifecycleModelMixin
+from django_lifecycle.decorators import hook
+from django_lifecycle.hooks import AFTER_SAVE, BEFORE_SAVE
 
 
 User = get_user_model()
@@ -14,7 +17,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Resume(UUIDModel, CreatedModel):
+class Resume(LifecycleModelMixin, UUIDModel, CreatedModel):
     user = models.OneToOneField(User, models.CASCADE, verbose_name='Пользователь', related_name='resume')
     name = models.CharField('Должность', max_length=512)
     tags = models.ManyToManyField(Tag, related_name='resumes', verbose_name='Навыки')
@@ -24,3 +27,8 @@ class Resume(UUIDModel, CreatedModel):
 
     def __str__(self):
         return f'{self.user} {self.name}'
+
+    @hook(AFTER_SAVE)
+    def load_vacancy(self):
+        from apps.vacancy.services.load_from_hh import Loader
+        Loader.load(self)

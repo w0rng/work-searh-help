@@ -14,5 +14,4 @@ class VacancyView(ListView):
         if 'all' in self.request.path:
             return Vacancy.objects.all()
         tags = Resume.objects.filter(user=self.request.user).values_list('tags', flat=True)
-        print(Vacancy.objects.filter(tags__in=tags.distinct()), flush=True)
         return Vacancy.objects.filter(tags__in=tags.distinct())
