@@ -26,9 +26,6 @@
                 <a class="nav-link disabled" href="#">Анализ рынка</a>
             </li>
             {% endif %}
-            <li class=" nav-item">
-                <a class="nav-link disabled" href="#">Подписки</a>
-            </li>
             {% if request.user.is_staff %}
             <li class="nav-item">
                 <a class="nav-link " href="/admin">Админка</a>
@@ -41,12 +38,13 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item dropleft">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
-                        {{user.first_name}}
+                        {{user.first_name}} [<b>{{request.user.subscriber.subscription}}</b>]
                     </a>
                     <div class="dropdown-menu" style="margin: auto;">
                         <a class="dropdown-item" href="{% url 'pages:profile' %}">Личный кабинет</a>
                         <a class="dropdown-item" href="{% url 'pages:resume' %}">Мое резюме</a>
-                        <a class="dropdown-item" href="{% url 'pages:promocode' %}">Баланс: {{user.balance}} </a>
+                        <a class="dropdown-item" href="{% url 'pages:promocode' %}">Баланс: {{user.balance}}₮ </a>
+                        <a class="dropdown-item" href="{% url 'pages:subscriptions' %}">Подписки</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'pages:logout' %}">Выход</a>
                     </div>

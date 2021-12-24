@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block title %}
+Подписик
+{% endblock title %}
+{% block content %}
+
+
+<div>
+    <div style="text-align: center;">
+        <h1>
+            Подписки
+        </h1>
+    </div>
+    <div class="row">
+    {% for sub in object_list %}
+
+     <form action="{% url 'pages:subscribe' %}" method="post" class="col-sm-4" style="margin-bottom: 30px;"
+        {% csrf_token %}
+        <input type="hidden" name="sub" value="{{ sub.pk }}" />
+        <div class="card">
+            <div class="card-body">
+                <center><h5 class="card-title">{{ sub.name }}</h5></center>
+                <p class="card-text">Описание</p>
+                <center><button type="submit" class="btn btn-primary" data-toggle="modal"
+                {% if request.user.subscriber.subscription == sub %} disabled {% endif %}>
+                    Оформить за {{sub.price}}₮
+                </button></center>
+            </div>
+        </div>
+    </form>
+    {% endfor %}
+    </div>
+
+</div>
+{% endblock content %}

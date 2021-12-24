@@ -26,12 +26,8 @@ class Subscription(UUIDModel):
 
 
 class Subscriber(LifecycleModelMixin, UUIDModel):
-    user = models.ForeignKey(User, verbose_name='Подписчик', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name='Подписчик', on_delete=models.CASCADE)
     subscription = models.ForeignKey(Subscription, verbose_name='Подписка', on_delete=models.SET_DEFAULT, default=Subscription.get_default)
 
     class Meta:
         unique_together = ('user', 'subscription')
-
-    @hook(BEFORE_UPDATE, when='subscription')
-    def subscribe(self):
-        self.user.update_balance(-self.subscription.price)

@@ -5,6 +5,7 @@ from siteq.pages.features import views as feature_views
 from siteq.pages.promocode import views as promocode_views
 from siteq.pages.resume import views as resume_views
 from siteq.pages.vacancy import views as vacancy_views
+from siteq.pages.subscription import views as subscription_views
 
 app_name = 'pages'
 
@@ -19,4 +20,6 @@ urlpatterns = [
     path('resume/', resume_views.ResumeView.as_view(), name='resume'),
     path('vacancies/', vacancy_views.VacancyView.as_view(), name='vacancies'),
     path('vacancies/all/', vacancy_views.VacancyView.as_view(), name='all_vacancies'),
+    path('subscriptions/', subscription_views.SubscriptionView.as_view(), name='subscriptions'),
+    path('subscribe/', subscription_views.SubscriptionCreateView.as_view(), name='subscribe')
 ]
