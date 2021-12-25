@@ -26,9 +26,6 @@ class VacancyView(ListView):
             vacancies.append((vacancy, score))
         
         vacancies.sort(key=lambda x: x[1], reverse=True)
-        print(vacancies[0][1]*0.7, flush=True)
-        print([v[1] for v in vacancies], flush=True)
-        print([v[1] for v in vacancies if v[1] >= vacancies[0][1]*0.7], flush=True)
         vacancies = [v[0] for v in vacancies if v[1] >= vacancies[0][1]*0.7]
 
         return vacancies

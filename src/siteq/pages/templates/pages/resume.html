@@ -19,7 +19,11 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
+        {% if not request.user.resume %}
         <button type="submit" class="btn btn-primary">Создать</button>
+        {% else %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        {% endif %}
         {% endbuttons %}
     </form>
 </div>
