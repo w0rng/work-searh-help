@@ -15,7 +15,7 @@
     <div class="row">
     {% for sub in object_list %}
 
-     <form action="{% url 'pages:subscribe' %}" method="post" class="col-sm-4" style="margin-bottom: 30px;"
+     <form action="{% url 'pages:subscribe' %}" method="post" class="col-sm-4" style="margin-bottom: 30px;">
         {% csrf_token %}
         <input type="hidden" name="sub" value="{{ sub.pk }}" />
         <div class="card">
