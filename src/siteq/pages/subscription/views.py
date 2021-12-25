@@ -5,13 +5,22 @@ from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from siteq.pages.subscription import forms
+from apps.vacancy.models import BaseFilter
 
 
 class SubscriptionView(ListView):
     form_class = forms.SubscriptionForm
     template_name = 'pages/subscription.html'
     model = Subscription
+
+    def get_queryset(self):
+        return super().get_queryset().order_by('level')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filters"] = BaseFilter.objects.all()
+        return context
+
 
 class SubscriptionCreateView(CreateView):
     form_class = forms.SubscriptionForm

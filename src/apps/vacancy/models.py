@@ -10,3 +10,11 @@ class Vacancy(models.Model):
     )
     tags = models.ManyToManyField(Tag, related_name='vacancies', verbose_name='Навыки')
     description = models.TextField('Описание')
+
+
+class BaseFilter(models.Model):
+    name = models.CharField('Название', max_length=50, unique=True)
+    level = models.PositiveIntegerField('Уровень', default=0, validators=[
+        MinValueValidator(0),
+    ])
+    enable = models.BooleanField('Включен', default=True)

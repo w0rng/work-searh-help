@@ -9,9 +9,9 @@ class Loader:
     @classmethod
     def load(cls, resume):
         tags = ' '.join(resume.tags.all().values_list('name', flat=True))
+        tags += ' ' + resume.name
         url = f'{cls.URL}?text={tags}&salary={int(resume.price)}'
         data = requests.get(url).json()
-        print(data, flush=True)
         for vacancy in data.get('items', []):
             tags = re.findall('[a-zA-Z]{2,}', vacancy['snippet']['requirement'] + ' ' + vacancy['name'])
             tags = [t.lower() for t in tags if t != 'highlighttext']
