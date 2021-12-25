@@ -18,7 +18,7 @@ class VacancyView(ListView):
         queryset = super().get_queryset()
         filtered = []
         for filter in filters:
-            filtered.append((filter.do(self.request, queryset), filter.model.level))
+            filtered.append((filter.do(self.request, queryset), filter.module.level))
 
         vacancies = []
         for vacancy in queryset:
