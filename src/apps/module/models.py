@@ -24,7 +24,6 @@ class ModuleClass(ABC):
     type = ModuleType.FILTER
 
     def __init__(self):
-        return
         self.module, created = Module.objects.get_or_create(name=self.name)
         if created:
             self.module.level = self.level
