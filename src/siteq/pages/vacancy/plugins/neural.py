@@ -9,6 +9,7 @@ from random import choices, seed, randint
 class NeuralFilter(BaseFilter):
     name = 'Хитрайя нейронная сеть'
     level = 2
+    show = True
 
     def _filter(self, request, queryset: QuerySet[Vacancy]):
         seed(request.user)

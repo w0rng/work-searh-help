@@ -6,6 +6,7 @@ from apps.vacancy.models import Vacancy
 class TagsFilter(BaseFilter):
     name = 'Фильтр по тегам'
     level = 1
+    show = True
 
     def _filter(self, request, queryset: QuerySet[Vacancy]):
         tags = [t for t in request.user.resume.tags.all() if t.vacancies.count() > 0]

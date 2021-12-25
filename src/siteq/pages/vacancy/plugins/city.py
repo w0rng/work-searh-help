@@ -6,6 +6,7 @@ from apps.vacancy.models import Vacancy
 class CityFilter(BaseFilter):
     name = 'Фильтр по городу'
     level = 0
+    show = True
 
     def _filter(self, request, queryset: QuerySet[Vacancy]):
         return queryset.filter(city=request.user.resume.city)

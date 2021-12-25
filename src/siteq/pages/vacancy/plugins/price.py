@@ -8,6 +8,7 @@ from decimal import Decimal
 class PriceFilter(BaseFilter):
     name = 'Фильтр по цене'
     level = 0
+    show = True
 
     def _filter(self, request, queryset: QuerySet[Vacancy]):
         resume = request.user.resume

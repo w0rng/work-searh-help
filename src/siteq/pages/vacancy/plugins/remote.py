@@ -6,6 +6,7 @@ from apps.vacancy.models import Vacancy
 class RemoteFilter(BaseFilter):
     name = 'Удаленная работа'
     level = 0
+    show = True
 
     def _filter(self, request, queryset: QuerySet[Vacancy]):
         return queryset.filter(remote=request.user.resume.remote)
