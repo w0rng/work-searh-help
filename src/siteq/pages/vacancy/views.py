@@ -9,6 +9,7 @@ class VacancyView(ListView):
     model = Vacancy
     form_class = forms.VacancyForm
     template_name = 'pages/vacancy.html'
+    paginate_by = 21
 
     def get_queryset(self):
         if 'all' in self.request.path:
