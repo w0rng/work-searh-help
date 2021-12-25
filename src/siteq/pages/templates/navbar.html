@@ -21,9 +21,14 @@
             <li class="nav-item {% if request.path == '/vacancies/all/' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'pages:all_vacancies' %}">Список предложений</a>
             </li>
-            {% if request.user.subscriber.subscription.level > 0 %}
-            <li class=" nav-item">
-                <a class="nav-link disabled" href="#">Анализ рынка</a>
+            {% if request.user.subscriber.subscription.level > 1 %}
+            <li class=" nav-item dropdown {% if 'analyze' in request.path %} active {% endif %}">
+                <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Анализ рынка
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'pages:analyze_views' %}">Количество вакансий с разными тегами</a>
+                </div>
             </li>
             {% endif %}
             {% if request.user.is_staff %}

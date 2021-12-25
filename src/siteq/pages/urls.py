@@ -7,6 +7,7 @@ from siteq.pages.resume import views as resume_views
 from siteq.pages.vacancy import views as vacancy_views
 from siteq.pages.subscription import views as subscription_views
 from siteq.pages.module import views as modules_views
+from siteq.pages.analyze import views as analyze_views
 
 app_name = 'pages'
 
@@ -24,5 +25,6 @@ urlpatterns = [
     path('subscriptions/', subscription_views.SubscriptionView.as_view(), name='subscriptions'),
     path('subscribe/', subscription_views.SubscriptionCreateView.as_view(), name='subscribe'),
     path('modules/', modules_views.ModuleView.as_view(), name='modules'),
-    path('modules/save/', modules_views.UpdateModuleView.as_view(), name='modules_save')
+    path('modules/save/', modules_views.UpdateModuleView.as_view(), name='modules_save'),
+    path('analyze/test/', analyze_views.EditorChartView.as_view(), name='analyze_views'),
 ]
