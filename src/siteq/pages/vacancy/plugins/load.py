@@ -1,6 +1,7 @@
 from os import walk
 from importlib import import_module
 
+
 filters = []
 
 for path, _, files in walk('siteq/pages/vacancy/plugins'):
