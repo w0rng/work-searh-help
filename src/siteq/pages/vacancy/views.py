@@ -18,4 +18,4 @@ class VacancyView(ListView):
         for filter in filters:
             print(filter, flush=True)
             queryset = filter().do(self.request, queryset)
-        return queryset
+        return queryset.distinct()
