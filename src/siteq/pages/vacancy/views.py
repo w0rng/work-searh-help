@@ -5,6 +5,7 @@ from apps.vacancy.models import Vacancy
 from django.views.generic import ListView
 from siteq.pages.vacancy.plugins.load import filters
 from django.contrib.auth.mixins import LoginRequiredMixin
+from apps.vacancy.services.load_from_hh import Loader
 
 
 class VacancyView(LoginRequiredMixin, ListView):
@@ -19,6 +20,8 @@ class VacancyView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
+        if self.request.user.resume:
+            Loader.load(self.request.user.resume)
         if 'all' in self.request.path:
             return super().get_queryset()
         queryset = super().get_queryset()
