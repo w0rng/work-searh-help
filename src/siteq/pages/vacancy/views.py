@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from siteq.pages.vacancy import forms
 
 from apps.vacancy.models import Vacancy
@@ -13,9 +14,21 @@ class VacancyView(ListView):
 
     def get_queryset(self):
         if 'all' in self.request.path:
-            return Vacancy.objects.all()
-        queryset = self.model.objects.all()
+            return super().get_queryset()
+        queryset = super().get_queryset()
+        filtered = []
         for filter in filters:
-            print(filter, flush=True)
-            queryset = filter().do(self.request, queryset)
-        return queryset.distinct()
+            filtered.append((filter.do(self.request, queryset), filter.model.level))
+
+        vacancies = []
+        for vacancy in queryset:
+            score = sum([f[1]+1 for f in filtered if vacancy in f[0]])
+            vacancies.append((vacancy, score))
+        
+        vacancies.sort(key=lambda x: x[1], reverse=True)
+        print(vacancies[0][1]*0.7, flush=True)
+        print([v[1] for v in vacancies], flush=True)
+        print([v[1] for v in vacancies if v[1] >= vacancies[0][1]*0.7], flush=True)
+        vacancies = [v[0] for v in vacancies if v[1] >= vacancies[0][1]*0.7]
+
+        return vacancies

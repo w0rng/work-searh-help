@@ -1,11 +1,10 @@
-from django.db import models
 from apps.helpers.models import CreatedModel, UUIDModel
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
+from django.db import models
 from django_lifecycle import LifecycleModelMixin
 from django_lifecycle.decorators import hook
-from django_lifecycle.hooks import AFTER_SAVE, BEFORE_SAVE
-
+from django_lifecycle.hooks import AFTER_SAVE
 
 User = get_user_model()
 
@@ -24,6 +23,8 @@ class Resume(LifecycleModelMixin, UUIDModel, CreatedModel):
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2, default=0,
         validators=[MinValueValidator(0)]
     )
+    remote = models.BooleanField('Удаленная работа', default=False)
+    city = models.CharField('Город', max_length=50, null=True)
 
     def __str__(self):
         return f'{self.user} {self.name}'

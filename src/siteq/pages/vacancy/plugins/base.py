@@ -13,6 +13,7 @@ class BaseFilter(ABC):
         pass
 
     def do(self, request, queryset: QuerySet[Vacancy]):
+        queryset = queryset.distinct()
         if not self.model.enable:
             return queryset
         if self.level > request.user.subscriber.subscription.level:

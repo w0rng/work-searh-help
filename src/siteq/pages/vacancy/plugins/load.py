@@ -11,4 +11,4 @@ for path, _, files in walk('siteq/pages/vacancy/plugins'):
             continue
         module = import_module(f'siteq.pages.vacancy.plugins.{file[:-3]}')
         module = getattr(module, file[:-3].title()+'Filter')
-        filters.append(module)
+        filters.append(module())

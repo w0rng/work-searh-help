@@ -10,6 +10,8 @@ class Vacancy(models.Model):
     )
     tags = models.ManyToManyField(Tag, related_name='vacancies', verbose_name='Навыки')
     description = models.TextField('Описание')
+    city = models.CharField('Город', max_length=50, null=True)
+    remote = models.BooleanField('Удаленная работа', default=False)
 
 
 class BaseFilter(models.Model):

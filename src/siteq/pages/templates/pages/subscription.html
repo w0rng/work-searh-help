@@ -24,7 +24,7 @@
                 <p class="card-text">
                     <ul class="list-group">
                     {% for filter in filters %}
-                    {% if filter.level <= sub.level %}
+                    {% if filter.level <= sub.level and filter.enable %}
                     <li class="list-group-item">{{filter.name}}</li>
                     {% endif %}
                     {% endfor %}

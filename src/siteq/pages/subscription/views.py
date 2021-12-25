@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from siteq.pages.subscription import forms
 from apps.vacancy.models import BaseFilter
+from siteq.pages.vacancy.plugins.load import filters
 
 
 class SubscriptionView(ListView):
