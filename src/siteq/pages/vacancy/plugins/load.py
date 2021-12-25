@@ -17,5 +17,5 @@ for path, _, files in walk('siteq/pages/vacancy/plugins'):
         filters.append(module())
 
 
-modules = [f.module.pk for f in filter]
+modules = [f.module.pk for f in filters]
 Module.objects.filter(~Q(pk__in=modules), type=ModuleType.FILTER).delete()
