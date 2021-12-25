@@ -17,5 +17,4 @@ class ModuleClass(ABC):
     level: int
 
     def __init__(self):
-        pass
-        # self.module = Module.objects.get_or_create(name=self.name, level=self.level)[0]
+        self.module = Module.objects.get_or_create(name=self.name, level=self.level)[0]
