@@ -4,13 +4,19 @@ from siteq.pages.vacancy import forms
 from apps.vacancy.models import Vacancy
 from django.views.generic import ListView
 from siteq.pages.vacancy.plugins.load import filters
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class VacancyView(ListView):
+class VacancyView(LoginRequiredMixin, ListView):
     model = Vacancy
     form_class = forms.VacancyForm
     template_name = 'pages/vacancy.html'
     paginate_by = 21
+
+    def dispatch(self, request, *args, **kwargs):
+        if 'all' in self.request.path:
+            return ListView.dispatch(self, request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         if 'all' in self.request.path:

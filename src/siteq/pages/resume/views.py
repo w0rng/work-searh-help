@@ -1,9 +1,10 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from siteq.pages.resume import forms
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ResumeView(CreateView, UpdateView):
+class ResumeView(LoginRequiredMixin, CreateView, UpdateView):
     form_class = forms.ResumeForm
     success_url = reverse_lazy('pages:vacancies')
     template_name = 'pages/resume.html'

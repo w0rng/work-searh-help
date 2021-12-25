@@ -4,15 +4,21 @@ from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from siteq.pages.module.forms import ModuleForm
+from django.contrib.auth.mixins import AccessMixin
 
 
-class ModuleView(ListView):
+class ModuleView(AccessMixin, ListView):
     form_class = ModuleForm
     template_name = 'pages/module.html'
     model = Module
 
     def get_queryset(self):
         return super().get_queryset().order_by('pk')
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UpdateModuleView(CreateView):

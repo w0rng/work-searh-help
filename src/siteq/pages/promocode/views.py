@@ -6,9 +6,10 @@ from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from siteq.pages.promocode.forms import PromocodeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class PromocodeView(CreateView):
+class PromocodeView(LoginRequiredMixin, CreateView):
     form_class = PromocodeForm
     success_url = reverse_lazy('pages:promocode')
     template_name = 'pages/promocode.html'

@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView
 from siteq.pages.subscription import forms
 from apps.module.models import Module
 from siteq.pages.vacancy.plugins.load import filters
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class SubscriptionView(ListView):
@@ -23,7 +24,7 @@ class SubscriptionView(ListView):
         return context
 
 
-class SubscriptionCreateView(CreateView):
+class SubscriptionCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.SubscriptionForm
     template_name = 'pages/subscription.html'
     success_url = reverse_lazy('pages:subscriptions')

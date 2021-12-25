@@ -3,6 +3,7 @@ from siteq.pages.user import forms
 from apps.user.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class RegistrationView(CreateView):
@@ -11,7 +12,7 @@ class RegistrationView(CreateView):
     template_name = 'register/register.html'
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = forms.ProfileForm
     success_url = reverse_lazy('pages:home')
