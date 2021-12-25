@@ -5,7 +5,7 @@ from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from siteq.pages.subscription import forms
-from apps.vacancy.models import BaseFilter
+from apps.module.models import Module
 from siteq.pages.vacancy.plugins.load import filters
 
 
@@ -19,7 +19,7 @@ class SubscriptionView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filters"] = BaseFilter.objects.all()
+        context["modules"] = Module.objects.all()
         return context
 
 

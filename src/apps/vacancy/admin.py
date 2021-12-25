@@ -1,12 +1,7 @@
 from django.contrib import admin
-from apps.vacancy.models import Vacancy, BaseFilter
+from apps.vacancy.models import Vacancy
 
 
 @admin.register(Vacancy)
 class VacancyAdmin(admin.ModelAdmin):
     list_display = ('name',)
-
-
-@admin.register(BaseFilter)
-class BaseFilterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'enable')

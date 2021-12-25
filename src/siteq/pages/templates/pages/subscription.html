@@ -23,15 +23,16 @@
                 <center><h5 class="card-title">{{ sub.name }}</h5></center>
                 <p class="card-text">
                     <ul class="list-group">
-                    {% for filter in filters %}
-                    {% if filter.level <= sub.level and filter.enable %}
-                    <li class="list-group-item">{{filter.name}}</li>
+                    {% for module in modules %}
+                    {% if module.level <= sub.level and module.enable and module.show %}
+                    <li class="list-group-item">{{module.name}}</li>
                     {% endif %}
                     {% endfor %}
                     </ul>
                 </p>
-                <center><button type="submit" class="btn btn-primary" data-toggle="modal"
-                {% if request.user.subscriber.subscription == sub %} disabled {% endif %}>
+                <center><button type="submit" class="btn {% if request.user.subscriber.subscription.level > sub.level %} btn-secondary {% else %}
+                    btn-primary {% endif %}" data-toggle="modal"
+                {% if request.user.subscriber.subscription.level >= sub.level %} disabled {% endif %}>
                     Оформить за {{sub.price}}₮
                 </button></center>
             </div>

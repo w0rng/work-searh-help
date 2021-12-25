@@ -15,12 +15,13 @@ INSTALLED_APPS = [
     'django_filters',
     'bootstrap4',
 
+    'apps.module',
     'apps.user',
     'siteq.pages',
     'apps.promocode',
     'apps.resume',
     'apps.vacancy',
-    'apps.subscription'
+    'apps.subscription',   
 ]
 
 if settings.DEBUG:
