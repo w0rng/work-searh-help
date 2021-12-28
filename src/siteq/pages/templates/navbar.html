@@ -26,9 +26,13 @@
                 <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Анализ рынка
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'pages:analyze_views' %}">Количество вакансий с разными тегами</a>
-                </div>
+                {% for module in analyzers %}
+                {% if module.1.module.enable %}
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'pages:analyze_views' %}?name={{module.0}}">{{module.1.name}}</a>
+                    </div>
+                {% endif %}
+                {% endfor %}
             </li>
             {% endif %}
             {% if request.user.is_staff %}

@@ -1,12 +1,17 @@
 from django.db.models.aggregates import Count
 from django.views.generic import TemplateView
 from apps.resume.models import Tag
+from siteq.pages.analyze.plugins.load import analyzers
 
 
 class EditorChartView(TemplateView):
     template_name = 'pages/chart.html'
 
     def get_context_data(self, **kwargs):
+        name = self.request.GET.get('name', '')
+        if not name:
+            return
         context = super().get_context_data(**kwargs)
-        context["qs"] = Tag.objects.annotate(count=Count('vacancies')).filter(count__gt=2)
+        context['qs'] = analyzers[name].get_queryset(self.request)
+        context['description'] = analyzers[name].description
         return context

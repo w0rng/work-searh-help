@@ -5,7 +5,7 @@ from abc import ABC
 
 class ModuleType(models.TextChoices):
     FILTER = 'f', 'Фильтр'
-    SITE = 's', 'Фичи'
+    ANALYZER = 'a', 'Анализатор'
 
 
 class Module(models.Model):

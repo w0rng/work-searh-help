@@ -26,5 +26,5 @@ urlpatterns = [
     path('subscribe/', subscription_views.SubscriptionCreateView.as_view(), name='subscribe'),
     path('modules/', modules_views.ModuleView.as_view(), name='modules'),
     path('modules/save/', modules_views.UpdateModuleView.as_view(), name='modules_save'),
-    path('analyze/test/', analyze_views.EditorChartView.as_view(), name='analyze_views'),
+    path('analyze/', analyze_views.EditorChartView.as_view(), name='analyze_views'),
 ]

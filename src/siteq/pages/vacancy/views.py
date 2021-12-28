@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from siteq.pages.vacancy.plugins.load import filters
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.vacancy.services.load_from_hh import Loader
+from siteq.pages.vacancy.filters import VacancyFilter
 
 
 class VacancyView(LoginRequiredMixin, ListView):
@@ -13,7 +14,13 @@ class VacancyView(LoginRequiredMixin, ListView):
     form_class = forms.VacancyForm
     template_name = 'pages/vacancy.html'
     paginate_by = 21
+    
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = VacancyFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+    
     def dispatch(self, request, *args, **kwargs):
         if 'all' in self.request.path:
             return ListView.dispatch(self, request, *args, **kwargs)
