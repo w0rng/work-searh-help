@@ -1,12 +1,11 @@
-from django.db.models.query import QuerySet
-from siteq.pages.vacancy import forms
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 from apps.vacancy.models import Vacancy
-from django.views.generic import ListView
-from siteq.pages.vacancy.plugins.load import filters
-from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.vacancy.services.load_from_hh import Loader
+from siteq.pages.vacancy import forms
 from siteq.pages.vacancy.filters import VacancyFilter
+from siteq.pages.vacancy.plugins.load import filters
 
 
 class VacancyView(LoginRequiredMixin, ListView):
@@ -18,7 +17,7 @@ class VacancyView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = VacancyFilter(self.request.GET, queryset=self.get_queryset())
+        # context["filter"] = VacancyFilter(self.request.GET, queryset=self.get_queryset())
         return context
     
     def dispatch(self, request, *args, **kwargs):
