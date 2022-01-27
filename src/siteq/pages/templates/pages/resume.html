@@ -5,8 +5,6 @@
 {% endblock title %}
 {% block content %}
 
-<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
-<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
 
 <div>
     <div style="text-align: center;">
@@ -19,17 +17,14 @@
 
     <form action="" method="post" class="form container">
         {% csrf_token %}
-        {{ form.media }}
-        {% comment %} {% bootstrap_form form %}
+        {% bootstrap_form form %}
         {% buttons %}
         {% if not request.user.resume %}
         <button type="submit" class="btn btn-primary">Создать</button>
         {% else %}
         <button type="submit" class="btn btn-primary">Сохранить</button>
         {% endif %}
-        {% endbuttons %} {% endcomment %}
+        {% endbuttons %}
     </form>
 </div>
-
-<link rel="stylesheet" type="text/css" href="/static/admin/css/widgets.css" />
 {% endblock content %}

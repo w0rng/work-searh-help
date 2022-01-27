@@ -1,23 +1,11 @@
 from django import forms
-from apps.resume.models import Resume, Tag
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from apps.resume.models import Resume
 
 
 class ResumeForm(forms.ModelForm):
-
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        required=False,
-        widget=FilteredSelectMultiple(
-            verbose_name='Теги',
-            is_stacked=False
-        )
-    )
-
     class Meta:
         model = Resume
         exclude = ['user']
-        fields = ('tags', )
 
 
 # Блок про API и способы взаимодействия в теорию
