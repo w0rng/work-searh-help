@@ -19,5 +19,3 @@ for path, _, files in walk('siteq/pages/analyze/plugins'):
 
 modules = [f.module.pk for f in analyzers.values()]
 Module.objects.filter(~Q(pk__in=modules), type=ModuleType.ANALYZER).delete()
-
-print(analyzers, flush=True)

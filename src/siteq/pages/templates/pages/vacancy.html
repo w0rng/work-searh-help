@@ -17,17 +17,17 @@
         </h1>
     </div>
 
-    {% if request.path == '/vacancies/all/' %}
-        <form method="get" class="form container" style="margin-bottom: 30px;">
-            {{filter.form}}
-            <button type="submit" class="btn btn-outline-success">Найти</button>
-        </form>
-    {% endif %}
+{#    {% if request.path == '/vacancies/all/' %}#}
+{#        <form method="get" class="form container" style="margin-bottom: 30px;">#}
+{#            {{filter.form}}#}
+{#            <button type="submit" class="btn btn-outline-success">Найти</button>#}
+{#        </form>#}
+{#    {% endif %}#}
 
     <form action="" method="post" class="form container">
         {% csrf_token %}
         <div class="row">
-            {% for vacancy in filter.qs %}
+            {% for vacancy in object_list %}
 
             <div class="modal fade bd-example-modal-lg" id="vacancy_{{vacancy.pk}}" tabindex="-1" role="dialog"
                 aria-hidden="true">
