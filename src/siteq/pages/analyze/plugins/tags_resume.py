@@ -3,7 +3,7 @@ from django.db.models.aggregates import Count
 from siteq.pages.analyze.plugins.base import BaseAnalyzer
 
 
-class TagsAnalyzer(BaseAnalyzer):
+class Tags_ResumeAnalyzer(BaseAnalyzer):
     name = 'Количество резюме по тегам'
     level = 1
     description = 'Количество резюме с разными тегами'
