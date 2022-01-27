@@ -9,4 +9,4 @@ class TagsAnalyzer(BaseAnalyzer):
     description = 'Количество вакансий с разными тегами'
 
     def get_queryset(self, request):
-        return Tag.objects.annotate(count=Count('vacancies')).filter(count__gt=2)
+        return Tag.objects.all().annotate(count=Count('vacancies')).filter(count__gt=2)
