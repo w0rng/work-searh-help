@@ -9,4 +9,4 @@ class Tags_ResumeAnalyzer(BaseAnalyzer):
     description = 'Количество резюме с разными тегами'
 
     def get_queryset(self, request):
-        return Tag.objects.annotate(count=Count('resumes')).filter(count__gt=2)
+        return Tag.objects.all().annotate(count=Count('resumes')).filter(count__gt=2)
