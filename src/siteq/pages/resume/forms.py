@@ -17,6 +17,7 @@ class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         exclude = ['user']
+        fields = ('tags', )
 
 
 # Блок про API и способы взаимодействия в теорию
