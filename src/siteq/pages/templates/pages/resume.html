@@ -19,16 +19,15 @@
 
     <form action="" method="post" class="form container">
         {% csrf_token %}
-        {% bootstrap_form form %}
         {{ form.media }}
-        {{ form.as_table }}
+        {% comment %} {% bootstrap_form form %}
         {% buttons %}
         {% if not request.user.resume %}
         <button type="submit" class="btn btn-primary">Создать</button>
         {% else %}
         <button type="submit" class="btn btn-primary">Сохранить</button>
         {% endif %}
-        {% endbuttons %}
+        {% endbuttons %} {% endcomment %}
     </form>
 </div>
 
