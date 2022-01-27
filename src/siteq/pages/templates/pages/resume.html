@@ -17,19 +17,11 @@
         {% endif %}
     </div>
 
-    <form>
-        {% csrf_token %}
-        <table>
-            {{ form.media }}
-            {{ form.as_table }}
-            <script type="text/javascript" src="{% url 'jsi18n' %}"></script>
-        </table>
-            <input type="submit" value="Count">
-    </form>
-
     <form action="" method="post" class="form container">
         {% csrf_token %}
         {% bootstrap_form form %}
+        {{ form.media }}
+        {{ form.as_table }}
         {% buttons %}
         {% if not request.user.resume %}
         <button type="submit" class="btn btn-primary">Создать</button>
