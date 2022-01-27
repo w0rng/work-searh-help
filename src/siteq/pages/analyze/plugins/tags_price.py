@@ -11,4 +11,8 @@ class Tags_PriceAnalyzer(BaseAnalyzer):
     description = 'Средняя зарплата по каждому тегу'
 
     def get_queryset(self, request):
-        return Tag.objects.all().annotate(count=Avg('vacancies__price', output_field=IntegerField())).filter(count__gt=30_000)
+        result = Tag.objects.all().annotate(
+            count=Avg('vacancies__price', output_field=IntegerField())
+        ).filter(count__gt=30_000).order_by('count')
+        return result[:min(15, len(result))]
+    
