@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from apps.helpers.serializers import ErrorResponseSerializer, EmptySerializer
 from apps.helpers.viewsets import RUDExtendedModelViewSet
 
-from siteq.api.v1.user import serializers
+from api.v1.user import serializers
 
 User = get_user_model()
 

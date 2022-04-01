@@ -1,9 +1,8 @@
 from typing import TYPE_CHECKING
 
+# if TYPE_CHECKING:
+from apps.module.models import Module
 from rest_framework.permissions import SAFE_METHODS, BasePermission
-
-if TYPE_CHECKING:
-    from apps.module.models import Module
 
 
 class IsAuthorOrReadOnly(BasePermission):
