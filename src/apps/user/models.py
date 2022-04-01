@@ -9,16 +9,9 @@ from apps.helpers.models import UUIDModel
 from apps.user.exceptions import NotEnoughMoney
 
 
-class UserRole(models.TextChoices):
-    default = 'dflt', 'Обычный пользователь'
-    subscription = 'subs', 'Подписчик'
-    advertiser = 'adve', 'Рекламодатель'
-
-
 class User(LifecycleModelMixin, UUIDModel, AbstractUser):
     banned = models.BooleanField('Заблокирован', default=False)
     balance = models.DecimalField('Баланс', max_digits=6, decimal_places=2, default=0)
-    role = models.CharField('Роль', max_length=4, choices=UserRole.choices, default=UserRole.default)
 
     class Meta(AbstractUser.Meta):
         pass

@@ -7,6 +7,8 @@ services:
     env_file: .env
     volumes:
       - ./volumes/db/data:/var/lib/database/data
+    ports:
+      - "127.0.0.1:5432:5432"
 
   app:
     build:
@@ -23,6 +25,6 @@ services:
     depends_on:
       - db
     ports:
-      - 8000:8000
+      - "80:8000"
     command: gunicorn --bind 0.0.0.0:8000 --timeout 600 --log-level debug --reload
       --workers 4 core.wsgi:application

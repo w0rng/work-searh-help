@@ -1,33 +1,35 @@
+from apps.helpers.models import UUIDModel, enum_max_length
+from apps.module.exceptions import NotHaveSubscribe
+from apps.user.models import User
 from django.db import models
-from django.core.validators import MinValueValidator
-from abc import ABC
+from django_lifecycle import BEFORE_CREATE, LifecycleModel, hook
 
 
 class ModuleType(models.TextChoices):
-    FILTER = 'f', 'Фильтр'
-    ANALYZER = 'a', 'Анализатор'
+    FILTER = "filter", "Фильтр"
+    DATA_SOURCE = "source", "Источник данных"
 
 
-class Module(models.Model):
-    name = models.CharField('Название', max_length=50, unique=True)
-    level = models.PositiveIntegerField('Уровень', default=0, validators=[
-        MinValueValidator(0),
-    ])
-    enable = models.BooleanField('Включен', default=True)
-    show = models.BooleanField('Отображать', default=True)
-    type = models.CharField('Тип', max_length=1, choices=ModuleType.choices)
+class Module(UUIDModel, LifecycleModel):
+    name = models.CharField("Название", max_length=50, unique=True)
+    type = models.CharField("Тип", max_length=enum_max_length(ModuleType), choices=ModuleType.choices)
+    description = models.TextField("Описание")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
+    endpoint = models.URLField("Эндпоинт")
+
+    def __str__(self):
+        return self.name
+
+    @hook(BEFORE_CREATE)
+    def check_user(self):
+        if self.author.subscriber.subscription.level == 0:
+            raise NotHaveSubscribe()
 
 
-class ModuleClass(ABC):
-    name: str
-    level: int
-    show: bool
-    type = ModuleType.FILTER
+class ConfigModule(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, verbose_name="Модуль")
+    enabled = models.BooleanField("Включен", default=True)
 
-    def __init__(self):
-        self.module, created = Module.objects.get_or_create(name=self.name)
-        if created:
-            self.module.level = self.level
-            self.module.show = self.show
-            self.module.type = self.type
-            self.module.save()
+    class Meta:
+        unique_together = ["user", "module"]

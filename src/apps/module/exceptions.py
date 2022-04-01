@@ -1,0 +1,2 @@
+class NotHaveSubscribe(Exception):
+    pass
