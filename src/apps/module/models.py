@@ -17,7 +17,7 @@ class Module(UUIDModel, LifecycleModel):
     description = models.TextField("Описание")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     endpoint = models.URLField("Эндпоинт")
-    for_all_users = models.BooleanField(default=False)
+    public = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

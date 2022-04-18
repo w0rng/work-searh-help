@@ -23,4 +23,4 @@ class ModuleViewSet(ModelViewSet):
             return Module.objects.none()
         if user.subscriber.subscription.level == 1:
             return Module.objects.filter(author=user)
-        return Module.objects.all()
+        return Module.objects.filter(public=True)
