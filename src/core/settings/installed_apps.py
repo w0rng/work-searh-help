@@ -17,7 +17,7 @@ INSTALLED_APPS = [
 
     'apps.module',
     'apps.user',
-    'siteq.pages',
+    'pages',
     'apps.promocode',
     'apps.resume',
     'apps.vacancy',

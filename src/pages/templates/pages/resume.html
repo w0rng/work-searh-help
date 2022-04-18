@@ -1,0 +1,30 @@
+{% extends "../base.html" %}
+{% load bootstrap4 %}
+{% block title %}
+Резюме
+{% endblock title %}
+{% block content %}
+
+
+<div>
+    <div style="text-align: center;">
+        {% if not request.user.resume %}
+        <h2>Ухты пухты! У тебя еще нет резюме</h2>
+        {% else %}
+        <h2>Редактирование резюме</h2>
+        {% endif %}
+    </div>
+
+    <form action="" method="post" class="form container">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        {% if not request.user.resume %}
+        <button type="submit" class="btn btn-primary">Создать</button>
+        {% else %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        {% endif %}
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}
