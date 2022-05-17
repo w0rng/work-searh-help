@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 
 class EditorChartView(TemplateView):
-    template_name = "pages/../templates/pages/chart.html"
+    template_name = "pages/chart.html"
 
     def get_context_data(self, **kwargs):
         name = self.request.GET.get("name", "")

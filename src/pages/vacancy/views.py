@@ -1,4 +1,3 @@
-from apps.module.models import ConfigModule
 from apps.vacancy.models import Vacancy
 from apps.vacancy.services.load_from_hh import Loader
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,12 +8,11 @@ from pages.vacancy import forms
 class VacancyView(LoginRequiredMixin, ListView):
     model = Vacancy
     form_class = forms.VacancyForm
-    template_name = "pages/../templates/pages/vacancy.html"
+    template_name = "pages/vacancy.html"
     paginate_by = 21
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context["filter"] = VacancyFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
     def dispatch(self, request, *args, **kwargs):

@@ -11,37 +11,22 @@
             <li class="nav-item {% if request.path == '/' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'pages:home' %}">Главная</a>
             </li>
-            <li class="nav-item {% if request.path == '/vacancies/' %} active {% endif %}">
-                {% if request.user.resume %}
-                <a class="nav-link" href="{% url 'pages:vacancies' %}">Работенка для меня</a>
-                {% else %}
-                <a class="nav-link" href="{% url 'pages:resume' %}">Работенка для меня</a>
-                {% endif %}
-            </li>
-            <li class="nav-item {% if request.path == '/vacancies/all/' %} active {% endif %}">
-                <a class="nav-link" href="{% url 'pages:all_vacancies' %}">Список предложений</a>
-            </li>
-            {% if request.user.subscriber.subscription.level > 1 %}
-            <li class=" nav-item dropdown {% if 'analyze' in request.path %} active {% endif %}">
-                <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Анализ рынка
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                {% for module in analyzers %}
-                {% if module.1.module.enable %}
-                    
-                        <a class="dropdown-item" href="{% url 'pages:analyze_views' %}?name={{module.0}}">{{module.1.name}}</a>
-                    
-                {% endif %}
-                {% endfor %}
-                </div>
-            </li>
+            {% if request.user.role == "worker" %}
+                <li class="nav-item {% if request.path == '/vacancies/' %} active {% endif %}">
+                    {% if request.user.resume %}
+                    <a class="nav-link" href="{% url 'pages:vacancies' %}">Работенка для меня</a>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'pages:resume' %}">Работенка для меня</a>
+                    {% endif %}
+                </li>
+            {% else %}
+                <li class="nav-item {% if request.path == '/resume/' %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'pages:resume' %}">Найти работничка</a>
+                </li>
             {% endif %}
-            {% if request.user.is_staff %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'pages:modules' %}">Модули</a>
+                <a class="nav-link" href="{% url 'pages:modules' %}">Маркетплейс</a>
             </li>
-            {% endif %}
         </ul>
         {% endif %}
         {% if request.user.is_authenticated %}

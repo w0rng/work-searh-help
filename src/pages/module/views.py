@@ -1,20 +1,36 @@
-from apps.module.models import Module
-from django.db.models import Q
+from apps.module.models import ConfigModule, Module
+from django.contrib.auth.mixins import AccessMixin
+from django.db.models import Count, F, Q, Value
+from django.forms import BooleanField
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from pages.module.forms import ModuleForm
-from django.contrib.auth.mixins import AccessMixin
 
 
 class ModuleView(AccessMixin, ListView):
     form_class = ModuleForm
-    template_name = 'pages/../templates/pages/module.html'
+    template_name = "pages/module.html"
     model = Module
 
     def get_queryset(self):
-        return super().get_queryset().order_by('pk')
-    
+        user = self.request.user
+        if not user or not user.is_authenticated:
+            queryset = Module.objects.none()
+        elif user.subscriber.subscription.level == 0:
+            queryset = Module.objects.none()
+        elif user.subscriber.subscription.level == 1:
+            queryset = Module.objects.filter(author=user)
+        else:
+            queryset = Module.objects.filter(Q(author=user) | Q(public=True))
+        queryset = queryset.annotate(
+            enabled=Count(
+                "configmodule",
+                filter=Q(configmodule__enabled=True),
+            )
+        ).order_by("-enabled")
+        return queryset
+
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
             return self.handle_no_permission()
@@ -23,14 +39,25 @@ class ModuleView(AccessMixin, ListView):
 
 class UpdateModuleView(CreateView):
     form_class = ModuleForm
-    success_url = reverse_lazy('pages:modules')
-    template_name = 'pages/../templates/pages/module.html'
+    success_url = reverse_lazy("pages:modules")
+    template_name = "pages/module.html"
 
     def post(self, request, *args, **kwargs):
-        for pk in request.POST.keys():
-            ids = [i for i in request.POST.keys() if i.isdigit()]
-            Module.objects.filter(pk__in=ids).update(enable=True)
-            Module.objects.filter(~Q(pk__in=ids)).update(enable=False)
+        module_id = request.POST.get("module")
+        if not module_id:
+            return HttpResponseRedirect(self.success_url)
+        module = Module.objects.get(pk=module_id)
+        if not module:
+            return HttpResponseRedirect(self.success_url)
+        if request.user.subscriber.subscription.level == 0:
+            return HttpResponseRedirect(self.success_url)
+        if request.user.subscriber.subscription.level == 1:
+            if module.author != request.user:
+                return HttpResponseRedirect(self.success_url)
+        config, created = ConfigModule.objects.get_or_create(module=module, user=request.user)
+        config.enabled = created or not config.enabled
+        config.save()
+
         return HttpResponseRedirect(self.success_url)
 
     def get(self, request):

@@ -27,15 +27,6 @@ class Module(UUIDModel, LifecycleModel):
         if self.author.subscriber.subscription.level == 0:
             raise NotHaveSubscribe()
 
-    @hook(AFTER_SAVE)
-    def if_for_all_users(self):
-        if not self.for_all_users:
-            return
-
-        users = User.objects.filter(pk__in=ConfigModule.objects.filter(module=self).values_list("user", flat=True))
-        configs = [ConfigModule(user=user, module=self, enabled=True) for user in users]
-        ConfigModule.objects.bulk_create(configs)
-
     def load(self, user: User):
         response = requests.get(f"{self.endpoint}/vacancies", params={"id": self.id})
         if not response.ok:

@@ -13,7 +13,7 @@ from pages.subscription import forms
 
 class SubscriptionView(ListView):
     form_class = forms.SubscriptionForm
-    template_name = "pages/../templates/pages/subscription.html"
+    template_name = "pages/subscription.html"
     model = Subscription
 
     def get_queryset(self):
@@ -27,7 +27,7 @@ class SubscriptionView(ListView):
 
 class SubscriptionCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.SubscriptionForm
-    template_name = "pages/../templates/pages/subscription.html"
+    template_name = "pages/subscription.html"
     success_url = reverse_lazy("pages:subscriptions")
     model = Subscription
 

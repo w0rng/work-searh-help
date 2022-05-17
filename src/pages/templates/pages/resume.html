@@ -7,24 +7,71 @@
 
 
 <div>
+
     <div style="text-align: center;">
-        {% if not request.user.resume %}
-        <h2>Ухты пухты! У тебя еще нет резюме</h2>
+        {% if user.role == "worker" %}
+            {% if not request.user.resume %}
+            <h2>Ухты пухты! У тебя еще нет резюме</h2>
+            {% else %}
+            <h2>Редактирование резюме</h2>
+            {% endif %}
         {% else %}
-        <h2>Редактирование резюме</h2>
+            <h2>Список соискателей</h2>
         {% endif %}
     </div>
 
-    <form action="" method="post" class="form container">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-        {% if not request.user.resume %}
-        <button type="submit" class="btn btn-primary">Создать</button>
-        {% else %}
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-        {% endif %}
-        {% endbuttons %}
-    </form>
+    {% if user.role == "worker" %}
+        <form action="" method="post" class="form container">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+            {% if not request.user.resume %}
+            <button type="submit" class="btn btn-primary">Создать</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            {% endif %}
+            {% endbuttons %}
+        </form>
+    {% else %}
+        {% for resume in object_list %}
+            <div class="modal fade bd-example-modal-lg" id="resume_{{resume.pk}}" tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ resume.name }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Зовут {{ resume.user.first_name }} {{ resume.user.last_name }}. Живет в {{ resume.city }}. <br>
+                            Притендует на должность "{{ resume.name }}" и хочет {{ resume.price }} денег. <br>
+                            {% if resume.remote %}
+                            Может работать удаленно <br>
+                            {% endif %}
+                            Навыки: {{ resume.tags }}. <br>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Пригласить на собеседование</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" style="margin-bottom: 30px;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ resume.name }}</h5>
+                        <p class="card-text">{{ resume.price}} руб.</p>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#resume_{{resume.pk}}">
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
 {% endblock content %}
