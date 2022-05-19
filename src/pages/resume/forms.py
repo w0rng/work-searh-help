@@ -1,11 +1,11 @@
-from django import forms
 from apps.resume.models import Resume
+from django import forms
 
 
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
-        exclude = ['user']
+        exclude = ["user", "source"]
 
 
 # Блок про API и способы взаимодействия в теорию

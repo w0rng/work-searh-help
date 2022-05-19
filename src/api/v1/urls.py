@@ -1,4 +1,5 @@
 from api.v1.modules.views import ModuleViewSet
+from api.v1.resume.views import ResumeViewSet
 from api.v1.user.views import UserViewSet
 from api.v1.vacancy.views import VacancyViewSet
 from django.urls import include, path
@@ -10,6 +11,7 @@ router = routers.DefaultRouter()
 router.register("module", ModuleViewSet, basename="module")
 router.register("user", UserViewSet, basename="user")
 router.register("vacancy", VacancyViewSet, basename="vacancy")
+router.register("vacancy", ResumeViewSet, basename="resume")
 
 
 schema_view = get_schema_view(

@@ -1,10 +1,9 @@
-from api.v1.vacancy.serializers import VacancySerializer
-from apps.vacancy.models import Vacancy
+from api.v1.resume.serializers import ResumeSerializer
 from rest_framework.viewsets import GenericViewSet, mixins
 
 
-class VacancyViewSet(GenericViewSet, mixins.CreateModelMixin):
-    serializer_class = VacancySerializer
+class ResumeViewSet(GenericViewSet, mixins.CreateModelMixin):
+    serializer_class = ResumeSerializer
 
     def get_serializer_context(self):
         return {

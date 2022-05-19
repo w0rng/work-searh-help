@@ -23,6 +23,9 @@
                 <li class="nav-item {% if request.path == '/resume/' %} active {% endif %}">
                     <a class="nav-link" href="{% url 'pages:resume' %}">Найти работничка</a>
                 </li>
+                <li class="nav-item {% if request.path == '/vacancies/' %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'pages:vacancies' %}">Мои вакансии</a>
+                </li>
             {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'pages:modules' %}">Маркетплейс</a>

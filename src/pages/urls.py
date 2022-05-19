@@ -21,7 +21,6 @@ urlpatterns = [
     path("promocode/", promocode_views.PromocodeView.as_view(), name="promocode"),
     path("resume/", resume_views.ResumeView.as_view(), name="resume"),
     path("vacancies/", vacancy_views.VacancyView.as_view(), name="vacancies"),
-    path("vacancies/all/", vacancy_views.VacancyView.as_view(), name="all_vacancies"),
     path("subscriptions/", subscription_views.SubscriptionView.as_view(), name="subscriptions"),
     path("subscribe/", subscription_views.SubscriptionCreateView.as_view(), name="subscribe"),
     path("modules/", modules_views.ModuleView.as_view(), name="modules"),

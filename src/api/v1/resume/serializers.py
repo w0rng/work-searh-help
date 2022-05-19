@@ -1,15 +1,8 @@
 from apps.module.models import Module
-from apps.resume.models import Tag
-from apps.vacancy.models import Vacancy
+from apps.resume.models import Resume, Tag
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.encoding import smart_text
 from rest_framework import serializers
-
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = "__all__"
 
 
 class CreatableSlugRelatedField(serializers.SlugRelatedField):
@@ -22,7 +15,7 @@ class CreatableSlugRelatedField(serializers.SlugRelatedField):
             self.fail("invalid")
 
 
-class VacancySerializer(serializers.ModelSerializer):
+class ResumeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     tags = CreatableSlugRelatedField(queryset=Tag.objects.all(), slug_field="name", many=True)
     source = serializers.UUIDField()
@@ -37,9 +30,8 @@ class VacancySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["source"] = Module.objects.get(id=validated_data["source"])
-        # validated_data["author"] = self.context["user"]
         return super().create(validated_data)
 
     class Meta:
-        model = Vacancy
-        fields = ("id", "name", "description", "tags", "source", "price", "description", "city", "remote")
+        model = Resume
+        fields = ("id", "name", "tags", "source", "price", "city", "remote")

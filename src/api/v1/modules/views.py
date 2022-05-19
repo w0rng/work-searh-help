@@ -7,6 +7,7 @@ from django.db.models import Q
 from drf_yasg.utils import no_body, swagger_auto_schema
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
 
 class ModuleViewSet(ModelViewSet):
     serializer_class = ModuleSerializer
-    permission_classes = [IsAuthorOrReadOnly]
+    permission_classes = [IsAuthorOrReadOnly, IsAuthenticated]
 
     def get_queryset(self):
         user: User = self.request.user
@@ -27,6 +28,13 @@ class ModuleViewSet(ModelViewSet):
         if user.subscriber.subscription.level == 1:
             return Module.objects.filter(author=user)
         return Module.objects.filter(Q(author=user) | Q(public=True))
+
+    def create(self, request, *args, **kwargs):
+        if self.request.user.subscriber.subscription.level == 0:
+            return Response(
+                status=403, data={"detail": "You are not allowed to create modules. Please upgrade your subscription."}
+            )
+        return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         user: User = self.request.user

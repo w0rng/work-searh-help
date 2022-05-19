@@ -1,41 +1,33 @@
+from apps.module.models import ConfigModule, Module
+from apps.user.models import UserRole
 from apps.vacancy.models import Vacancy
-from apps.vacancy.services.load_from_hh import Loader
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.db.models import Q
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView
 from pages.vacancy import forms
 
 
-class VacancyView(LoginRequiredMixin, ListView):
+class VacancyView(LoginRequiredMixin, CreateView, ListView):
     model = Vacancy
     form_class = forms.VacancyForm
     template_name = "pages/vacancy.html"
+    success_url = reverse_lazy("pages:vacancies")
     paginate_by = 21
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def dispatch(self, request, *args, **kwargs):
-        if "all" in self.request.path:
-            return ListView.dispatch(self, request, *args, **kwargs)
-        return super().dispatch(request, *args, **kwargs)
-
     def get_queryset(self):
-        if self.request.user.resume:
-            Loader.load(self.request.user.resume)
-        if "all" in self.request.path:
-            return super().get_queryset()
-        queryset = super().get_queryset()
-        filtered = []
-        # for filter in filters:
-        #     filtered.append((filter.do(self.request, queryset), filter.module.level))
+        user = self.request.user
+        if user.role == UserRole.employer:
+            return Vacancy.objects.filter(user=user)
+        return Vacancy.objects.filter(
+            Q(source__id__in=ConfigModule.objects.filter(user=user, enabled=True).values_list("module", flat=True))
+            | Q(source__isnull=True)
+        )
 
-        vacancies = []
-        for vacancy in queryset:
-            score = sum([f[1] + 1 for f in filtered if vacancy in f[0]])
-            vacancies.append((vacancy, score))
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-        vacancies.sort(key=lambda x: x[1], reverse=True)
-        vacancies = [v[0] for v in vacancies if v[1] >= vacancies[0][1] * 0.7]
-
-        return vacancies
+    def post(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        return super().post(request, *args, **kwargs)
