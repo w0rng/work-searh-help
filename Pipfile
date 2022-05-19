@@ -27,4 +27,4 @@ flake8-django = "*"
 wemake-python-styleguide = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "^3.9"

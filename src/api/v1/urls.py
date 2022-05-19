@@ -11,7 +11,7 @@ router = routers.DefaultRouter()
 router.register("module", ModuleViewSet, basename="module")
 router.register("user", UserViewSet, basename="user")
 router.register("vacancy", VacancyViewSet, basename="vacancy")
-router.register("vacancy", ResumeViewSet, basename="resume")
+router.register("resume", ResumeViewSet, basename="resume")
 
 
 schema_view = get_schema_view(

@@ -37,7 +37,7 @@ class VacancySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["source"] = Module.objects.get(id=validated_data["source"])
-        # validated_data["author"] = self.context["user"]
+        validated_data["user"] = self.context["user"]
         return super().create(validated_data)
 
     class Meta:
