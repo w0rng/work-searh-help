@@ -12,6 +12,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "django_filters",
     "bootstrap4",
+    "easy_select2",
     "apps.module",
     "apps.user",
     "pages",

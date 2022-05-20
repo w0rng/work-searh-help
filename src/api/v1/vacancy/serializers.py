@@ -23,7 +23,7 @@ class CreatableSlugRelatedField(serializers.SlugRelatedField):
 
 
 class VacancySerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
     tags = CreatableSlugRelatedField(queryset=Tag.objects.all(), slug_field="name", many=True)
     source = serializers.UUIDField()
 

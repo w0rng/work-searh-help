@@ -17,6 +17,8 @@ django-lifecycle = "*"
 django-filter = "*"
 django-bootstrap4 = "*"
 django-heroku = "*"
+django-select2 = "*"
+django-easy-select2 = "*"
 
 [dev-packages]
 pytest-django = "*"

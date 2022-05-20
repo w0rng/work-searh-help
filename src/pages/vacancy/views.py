@@ -1,9 +1,7 @@
-from apps.module.models import ConfigModule, Module
 from apps.user.models import UserRole
 from apps.vacancy.models import Vacancy
 from connectors.filters import FilterVacancies
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from pages.vacancy import forms
@@ -20,10 +18,6 @@ class VacancyView(LoginRequiredMixin, CreateView, ListView):
         user = self.request.user
         if user.role == UserRole.employer:
             return Vacancy.objects.filter(user=user)
-        return Vacancy.objects.filter(
-            Q(source__id__in=ConfigModule.objects.filter(user=user, enabled=True).values_list("module", flat=True))
-            | Q(source__isnull=True)
-        )
         return FilterVacancies(user).filter()
 
     def form_valid(self, form):

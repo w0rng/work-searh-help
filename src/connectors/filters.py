@@ -1,3 +1,4 @@
+import time
 from multiprocessing.pool import ThreadPool
 from typing import List
 
@@ -8,6 +9,7 @@ from apps.module.models import ConfigModule, Module, ModuleType
 from apps.user.models import User
 from apps.vacancy.models import Vacancy
 from connectors.serializers import FilterSerializer
+from django.core.cache import cache
 from django.db.models import Q
 
 
@@ -41,7 +43,7 @@ class FilterVacancies:
         }
         scores = FilterSerializer(requests.post(url, json=data).json(), many=True).data
         for score in scores:
-            score["vacancy"] = vacancies.get(pk=score["pk"])
+            score["vacancy"] = vacancies.get(pk=score["id"])
         return scores
 
     def _get_response_from_module(self):
@@ -49,10 +51,13 @@ class FilterVacancies:
             return pool.map(self._send_data, self._get_filter_modules())
 
     def filter(self):
+        if user_cache := cache.get(self.user.id):
+            return user_cache
         scores = self._get_response_from_module()
-        count = len(scores)
         total = {}
         for filter in scores:
             for data in filter:
-                total[data["vacancy"]] = total.get(data["vacancy"], 0) + data["score"] / count
-        return sorted(total, key=lambda x: total[x], reverse=True)
+                total[data["vacancy"]] = total.get(data["vacancy"], 0) + data["score"]
+        result = sorted(total, key=lambda x: total[x], reverse=True)
+        cache.set(self.user.id, result, timeout=60 * 60 * 24)
+        return result
