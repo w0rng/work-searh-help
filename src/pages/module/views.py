@@ -1,14 +1,13 @@
 from apps.module.models import ConfigModule, Module
-from django.contrib.auth.mixins import AccessMixin
-from django.db.models import Count, F, Q, Value
-from django.forms import BooleanField
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from pages.module.forms import ModuleForm
 
 
-class ModuleView(AccessMixin, ListView):
+class ModuleView(LoginRequiredMixin, ListView):
     form_class = ModuleForm
     template_name = "pages/module.html"
     model = Module
@@ -30,11 +29,6 @@ class ModuleView(AccessMixin, ListView):
             )
         ).order_by("-enabled")
         return queryset
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_staff:
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
 
 class UpdateModuleView(CreateView):
