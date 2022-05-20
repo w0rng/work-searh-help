@@ -1,3 +1,4 @@
+# from apps.enemy.models import Enemy
 from apps.module.models import ConfigModule, Module
 from rest_framework import serializers
 

@@ -1,5 +1,6 @@
+from apps.enemy.models import Tag
 from apps.module.models import Module
-from apps.resume.models import Resume, Tag
+from apps.resume.models import Resume
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.encoding import smart_text
 from rest_framework import serializers

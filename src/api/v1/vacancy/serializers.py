@@ -1,5 +1,5 @@
+from apps.enemy.models import Tag
 from apps.module.models import Module
-from apps.resume.models import Tag
 from apps.vacancy.models import Vacancy
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.encoding import smart_text

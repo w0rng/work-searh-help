@@ -1,5 +1,3 @@
-from apps.resume.models import Tag
-from django.db.models.aggregates import Count
 from django.views.generic import TemplateView
 
 
