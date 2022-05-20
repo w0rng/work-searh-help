@@ -42,9 +42,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Платят всего {{ vacancy.price }}, зато работа интересная. <br><br> Нужно будет делать:
-                            <br>
-                            &laquo;<i>{{ vacancy.description }}</i>&raquo;
+                            <i>{{ vacancy.description |safe }}</i>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

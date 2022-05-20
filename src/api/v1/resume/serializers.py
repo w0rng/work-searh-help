@@ -36,4 +36,4 @@ class ResumeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Resume
-        fields = ("id", "name", "tags", "source", "price", "city", "remote")
+        fields = ("id", "name", "tags", "source", "source_pk", "price", "city", "remote")
