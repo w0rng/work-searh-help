@@ -1,7 +1,7 @@
 import requests
 from apps.helpers.models import UUIDModel, enum_max_length
 from apps.module.exceptions import NotHaveSubscribe
-from apps.user.models import User
+from apps.user.models import User, UserRole
 from django.core.cache import cache
 from django.db import models
 from django_lifecycle import AFTER_SAVE, BEFORE_CREATE, LifecycleModel, hook
@@ -19,6 +19,9 @@ class Module(UUIDModel, LifecycleModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     endpoint = models.URLField("Эндпоинт")
     public = models.BooleanField(default=False)
+    role = models.CharField(
+        "Для", max_length=enum_max_length(UserRole), choices=UserRole.choices, default=None, null=True, blank=True
+    )
 
     def __str__(self):
         return self.name

@@ -21,6 +21,7 @@ class FilterVacancies:
             pk__in=ConfigModule.objects.filter(user=self.user, enabled=True)
             .values_list("module", flat=True)
             .filter(module__type=ModuleType.FILTER)
+            .filter(Q(role__isnull=True) | Q(role=self.user.role))
         )
 
     def _get_vacancies(self):

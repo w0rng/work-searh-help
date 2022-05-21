@@ -22,12 +22,16 @@ class ModuleView(LoginRequiredMixin, ListView):
             queryset = Module.objects.filter(author=user)
         else:
             queryset = Module.objects.filter(Q(author=user) | Q(public=True))
-        queryset = queryset.annotate(
-            enabled=Count(
-                "configmodule",
-                filter=Q(configmodule__enabled=True),
+        queryset = (
+            queryset.filter(Q(role__isnull=True) | Q(role=user.role))
+            .annotate(
+                enabled=Count(
+                    "configmodule",
+                    filter=Q(configmodule__enabled=True),
+                )
             )
-        ).order_by("-enabled")
+            .order_by("-enabled")
+        )
         return queryset
 
 
