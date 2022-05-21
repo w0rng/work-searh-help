@@ -20,6 +20,7 @@ django-heroku = "*"
 django-select2 = "*"
 django-easy-select2 = "*"
 django-redis = "*"
+django-jet-reboot = "*"
 
 [dev-packages]
 pytest-django = "*"

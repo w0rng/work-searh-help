@@ -11,3 +11,4 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(Resume)
 class ActivationAdmin(admin.ModelAdmin):
     list_display = ("name", "user", "price")
+    filter_horizontal = ["tags"]
