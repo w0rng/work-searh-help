@@ -41,7 +41,9 @@
                     </a>
                     <div class="dropdown-menu" style="margin: auto;">
                         <a class="dropdown-item" href="{% url 'pages:profile' %}">Личный кабинет</a>
-                        <a class="dropdown-item" href="{% url 'pages:resume' %}">Мое резюме</a>
+                        {% if request.user.role == "worker" %}
+                            <a class="dropdown-item" href="{% url 'pages:resume' %}">Мое резюме</a>
+                        {% endif %}
                         <a class="dropdown-item" href="{% url 'pages:promocode' %}">Баланс: {{user.balance}}₮ </a>
                         <a class="dropdown-item" href="{% url 'pages:subscriptions' %}">Подписки</a>
                         <div class="dropdown-divider"></div>

@@ -17,4 +17,4 @@ class ResumeForm(forms.ModelForm):
 
     class Meta:
         model = Resume
-        exclude = ["user", "source", "source_pk"]
+        exclude = ["user", "source", "source_pk", "fio"]

@@ -19,6 +19,7 @@ django-bootstrap4 = "*"
 django-heroku = "*"
 django-select2 = "*"
 django-easy-select2 = "*"
+django-redis = "*"
 
 [dev-packages]
 pytest-django = "*"

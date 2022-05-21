@@ -10,6 +10,14 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
 
+  redis:
+    container_name: courswork_redis
+    image: redis:5.0.3-alpine
+    restart: always
+    env_file: .env
+    volumes:
+      - ./volumes/redis/data:/data
+
   app:
     build:
       context: .
@@ -24,6 +32,7 @@ services:
       - ./volumes/static:/static
     depends_on:
       - db
+      - redis
     ports:
       - "80:8000"
     command: gunicorn --bind 0.0.0.0:8000 --timeout 600 --log-level debug --reload
