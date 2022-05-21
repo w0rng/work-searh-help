@@ -1,6 +1,7 @@
 from apps.module.models import ConfigModule
 from apps.resume.models import Resume
 from apps.user.models import UserRole
+from connectors.filters import FilterResumes
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -22,10 +23,7 @@ class ResumeView(LoginRequiredMixin, CreateView, UpdateView, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Resume.objects.filter(
-            Q(source__id__in=ConfigModule.objects.filter(user=user, enabled=True).values_list("module", flat=True))
-            | Q(source__isnull=True)
-        ).order_by("price")
+        return FilterResumes(user).filter()
 
     def form_valid(self, form):
         form.instance.user = self.request.user

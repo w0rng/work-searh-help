@@ -5,6 +5,7 @@ import requests
 from api.v1.resume.serializers import ResumeSerializer
 from api.v1.vacancy.serializers import VacancySerializer
 from apps.module.models import ConfigModule, Module, ModuleType
+from apps.resume.models import Resume
 from apps.user.models import User
 from apps.vacancy.models import Vacancy
 from connectors.serializers import FilterSerializer
@@ -36,10 +37,9 @@ class FilterVacancies:
     def _send_data(self, module: Module):
         url = module.endpoint
         vacancies = self._get_vacancies()
-        resume = ResumeSerializer(self._get_resume()).data
         data = {
             "vacancies": VacancySerializer(vacancies, many=True).data,
-            "resume": resume,
+            "resume": ResumeSerializer(self._get_resume()).data,
         }
         scores = FilterSerializer(requests.post(url, json=data).json(), many=True).data
         for score in scores:
@@ -60,4 +60,32 @@ class FilterVacancies:
                 total[data["vacancy"]] = total.get(data["vacancy"], 0) + data["score"]
         result = sorted(total, key=lambda x: total[x], reverse=True)
         cache.set(self.user.id, result, timeout=60 * 60 * 24)
+        return result
+
+
+class FilterResumes(FilterVacancies):
+    def _get_resumes(self):
+        return Resume.objects.filter(
+            Q(source__id__in=ConfigModule.objects.filter(user=self.user, enabled=True).values_list("module", flat=True))
+            | Q(source__isnull=True)
+        )
+
+    def _get_my_vacancies(self):
+        return Vacancy.objects.filter(user=self.user)
+
+    def _send_data(self, module: Module):
+        url = module.endpoint
+        resumes = self._get_resumes()
+        scores = {}
+        for vacancy in self._get_my_vacancies():
+            data = {
+                "vacancies": ResumeSerializer(resumes, many=True).data,
+                "resume": VacancySerializer(vacancy).data,
+            }
+            tmp_scores = FilterSerializer(requests.post(url, json=data).json(), many=True).data
+            for score in tmp_scores:
+                scores[score["id"]] = scores.get(score["id"], 0) + score["score"]
+        result = []
+        for pk in scores:
+            result.append({"vacancy": resumes.get(pk=pk), "score": scores[pk]})
         return result
