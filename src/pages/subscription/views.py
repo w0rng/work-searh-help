@@ -2,9 +2,8 @@ from apps.module.models import Module
 from apps.subscription.models import Subscriber, Subscription
 from apps.user.exceptions import NotEnoughMoney
 from django.contrib import messages
-
-# from siteq.pages.vacancy.plugins.load import filters
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
@@ -43,6 +42,7 @@ class SubscriptionCreateView(LoginRequiredMixin, CreateView):
         try:
             request.user.update_balance(-sub.price)
             Subscriber.objects.filter(user=request.user).update(subscription=sub)
+            cache.delete(request.user.pk)
             messages.success(request, "Ваша подписка успешно обновлена")
         except NotEnoughMoney:
             messages.warning(request, "У вас недостаточно средств")

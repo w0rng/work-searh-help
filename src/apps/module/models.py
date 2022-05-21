@@ -2,6 +2,7 @@ import requests
 from apps.helpers.models import UUIDModel, enum_max_length
 from apps.module.exceptions import NotHaveSubscribe
 from apps.user.models import User
+from django.core.cache import cache
 from django.db import models
 from django_lifecycle import AFTER_SAVE, BEFORE_CREATE, LifecycleModel, hook
 
@@ -44,6 +45,10 @@ class ConfigModule(LifecycleModel, models.Model):
             raise NotHaveSubscribe()
         if self.user.subscriber.subscription.level == 1 and self.user != self.module.author:
             raise NotHaveSubscribe()
+
+    @hook(AFTER_SAVE)
+    def clean_cache(self):
+        cache.delete(self.user.id)
 
     class Meta:
         unique_together = ["user", "module"]
