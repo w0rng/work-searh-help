@@ -1,12 +1,13 @@
 from apps.helpers.models import CreatedModel, UUIDModel
 from apps.module.models import Module
+from apps.user.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 from django_lifecycle import LifecycleModelMixin
 
 
 class Tag(models.Model):
-    name = models.CharField("Название", unique=True, primary_key=True, max_length=32)
+    name = models.CharField("Название", unique=True, primary_key=True, max_length=128)
 
     def __str__(self):
         return self.name

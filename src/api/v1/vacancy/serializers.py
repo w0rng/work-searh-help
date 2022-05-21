@@ -6,12 +6,6 @@ from django.utils.encoding import smart_text
 from rest_framework import serializers
 
 
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = "__all__"
-
-
 class CreatableSlugRelatedField(serializers.SlugRelatedField):
     def to_internal_value(self, data):
         try:

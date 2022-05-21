@@ -12,6 +12,7 @@ from pages.vacancy.forms import VacancyForm
 class ResumeView(LoginRequiredMixin, CreateView, UpdateView, ListView):
     success_url = reverse_lazy("pages:vacancies")
     template_name = "pages/resume.html"
+    paginate_by = 21
 
     def get_form_class(self):
         user = self.request.user
@@ -24,13 +25,19 @@ class ResumeView(LoginRequiredMixin, CreateView, UpdateView, ListView):
         return Resume.objects.filter(
             Q(source__id__in=ConfigModule.objects.filter(user=user, enabled=True).values_list("module", flat=True))
             | Q(source__isnull=True)
-        )
+        ).order_by("price")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
     def get_object(self, *args):
-        if hasattr(self.request.user, "resume"):
-            return self.request.user.resume
+        if self.request.user.has_resume:
+            return self.request.user.get_resume()
         return None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["count_pages"] = range(1, min(context["page_obj"].paginator.num_pages, 10) + 1)
+        context["random_colors"] = ["primary", "secondary", "success", "danger", "warning", "info", "dark"]
+        return context

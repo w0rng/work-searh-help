@@ -1,4 +1,3 @@
-import time
 from multiprocessing.pool import ThreadPool
 from typing import List
 
@@ -31,7 +30,7 @@ class FilterVacancies:
         )
 
     def _get_resume(self):
-        return self.user.resume
+        return self.user.get_resume()
 
     def _send_data(self, module: Module):
         url = module.endpoint

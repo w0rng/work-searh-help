@@ -9,7 +9,7 @@ class ResumeForm(forms.ModelForm):
         queryset=Tag.objects.all(),
         widget=Select2Multiple(
             select2attrs={
-                "width": "auto",
+                "width": "100%",
                 "height": "100%",
             }
         ),
@@ -17,4 +17,4 @@ class ResumeForm(forms.ModelForm):
 
     class Meta:
         model = Resume
-        exclude = ["user", "source"]
+        exclude = ["user", "source", "source_pk"]

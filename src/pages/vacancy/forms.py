@@ -7,4 +7,4 @@ from django.contrib.admin import widgets
 class VacancyForm(forms.ModelForm):
     class Meta:
         model = Vacancy
-        exclude = ["user", "source"]
+        exclude = ["user", "source", "source_pk"]

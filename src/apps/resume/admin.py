@@ -10,4 +10,4 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Resume)
 class ActivationAdmin(admin.ModelAdmin):
-    list_display = ("created_at", "user", "price")
+    list_display = ("name", "user", "price")

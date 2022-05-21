@@ -47,7 +47,27 @@
             <div class="col-sm-4" style="margin-bottom: 30px;">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ module.name }}</h5>
+                        <h5 class="card-title">{{ module.name }}<br>
+                        <small>
+                        {% if module.enabled %}
+                            <span class="badge badge-success">Включен</span>
+                        {% else %}
+                            <span class="badge badge-secondary">Выключен</span>
+                        {% endif %}
+                        {% if module.type == "source" %}
+                            <span class="badge badge-warning">Источник</span>
+                        {% else %}
+                            <span class="badge badge-info">Фильтр</span>
+                        {% endif %}
+                    {% if module.public %}
+                        <span class="badge badge-light">Публичный</span>
+                        {% else %}
+                        <span class="badge badge-dark">Приватный</span>
+
+                    {% endif %}
+                        </small>
+                        </h5>
+
                         <p class="card-text">{{ module.description|slice:":100" }}...</p>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#module_{{module.pk}}">

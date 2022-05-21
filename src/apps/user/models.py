@@ -21,6 +21,13 @@ class User(LifecycleModelMixin, UUIDModel, AbstractUser):
     class Meta(AbstractUser.Meta):
         pass
 
+    @property
+    def has_resume(self):
+        return self.resume.filter(source=None).exists()
+
+    def get_resume(self):
+        return self.resume.filter(source=None).first()
+
     def update_balance(self, count):
         if count < 0 and self.balance < abs(count):
             raise NotEnoughMoney("Недостаточно средств")
