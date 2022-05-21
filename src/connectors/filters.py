@@ -14,6 +14,8 @@ from django.db.models import Q
 
 
 class FilterVacancies:
+    Model = Vacancy
+
     def __init__(self, user: User):
         self.user = user
 
@@ -26,7 +28,7 @@ class FilterVacancies:
         )
 
     def _get_vacancies(self):
-        return Vacancy.objects.filter(
+        return self.Model.objects.filter(
             Q(source__id__in=ConfigModule.objects.filter(user=self.user, enabled=True).values_list("module", flat=True))
             | Q(source__isnull=True)
         )
@@ -59,11 +61,15 @@ class FilterVacancies:
             for data in filter:
                 total[data["vacancy"]] = total.get(data["vacancy"], 0) + data["score"]
         result = sorted(total, key=lambda x: total[x], reverse=True)
+        if not result:
+            result = self.Model.objects.all().order_by("?")
         cache.set(self.user.id, result, timeout=60 * 60 * 24)
         return result
 
 
 class FilterResumes(FilterVacancies):
+    Model = Resume
+
     def _get_resumes(self):
         return Resume.objects.filter(
             Q(source__id__in=ConfigModule.objects.filter(user=self.user, enabled=True).values_list("module", flat=True))
