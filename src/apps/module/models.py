@@ -1,4 +1,3 @@
-import requests
 from apps.helpers.models import UUIDModel, enum_max_length
 from apps.module.exceptions import NotHaveSubscribe
 from apps.user.models import User, UserRole
@@ -10,6 +9,7 @@ from django_lifecycle import AFTER_SAVE, BEFORE_CREATE, LifecycleModel, hook
 class ModuleType(models.TextChoices):
     FILTER = "filter", "Фильтр"
     DATA_SOURCE = "source", "Источник данных"
+    EXPORTER = "exporter", "Экспортер"
 
 
 class Module(UUIDModel, LifecycleModel):
@@ -30,11 +30,6 @@ class Module(UUIDModel, LifecycleModel):
     def check_user(self):
         if self.author.subscriber.subscription.level == 0:
             raise NotHaveSubscribe()
-
-    def load(self, user: User):
-        response = requests.get(f"{self.endpoint}/vacancies", params={"id": self.id})
-        if not response.ok:
-            return
 
 
 class ConfigModule(LifecycleModel, models.Model):

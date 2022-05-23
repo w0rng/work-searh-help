@@ -35,9 +35,15 @@
 
                         <div class="modal-footer">
                             {%  if not module.enabled %}
-                            <button type="submit" class="btn btn-success">Подключить</button>
+                                <input name="action" value="enable" hidden="hidden">
+                                {% if module.avlable %}
+                                    <button type="submit" class="btn btn-success">Подключить</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-secondary" disabled="disabled">Подключить</button>
+                                {% endif %}
                             {% else %}
-                            <button type="submit" class="btn btn-danger">Отключить</button>
+                                <input name="action" value="disable" hidden="hidden">
+                                <button type="submit" class="btn btn-danger">Отключить</button>
                             {% endif %}
                         </div>
                     </div>

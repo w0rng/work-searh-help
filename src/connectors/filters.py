@@ -13,6 +13,21 @@ from django.core.cache import cache
 from django.db.models import Q
 
 
+def test_get_active_module(client, user):
+    module = Module.objects.create(
+        name="test",
+        type=ModuleType.FILTER,
+        user=user,
+    )
+    ConfigModule.objects.create(
+        module=module,
+        user=user,
+        enabled=True,
+    )
+
+    assert FilterVacancies._get_active_module(user) == module
+
+
 class FilterVacancies:
     Model = Vacancy
 

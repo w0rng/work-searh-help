@@ -1,6 +1,6 @@
 from apps.module.models import ConfigModule, Module
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q
+from django.db.models import Case, Count, Q, When
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
@@ -14,22 +14,17 @@ class ModuleView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if not user or not user.is_authenticated:
-            queryset = Module.objects.none()
-        elif user.subscriber.subscription.level == 0:
-            queryset = Module.objects.none()
+        if user.subscriber.subscription.level == 0:
+            queryset = Module.objects.filter(Q(author=user) | Q(public=True)).annotate(avlable=Case(default=False))
         elif user.subscriber.subscription.level == 1:
-            queryset = Module.objects.filter(author=user)
+            queryset = Module.objects.filter(Q(author=user) | Q(public=True)).annotate(
+                avlable=Case(When(author=user, then=True), default=False)
+            )
         else:
-            queryset = Module.objects.filter(Q(author=user) | Q(public=True))
+            queryset = Module.objects.filter(Q(author=user) | Q(public=True)).annotate(avlable=Case(default=True))
         queryset = (
             queryset.filter(Q(role__isnull=True) | Q(role=user.role))
-            .annotate(
-                enabled=Count(
-                    "configmodule",
-                    filter=Q(configmodule__enabled=True),
-                )
-            )
+            .annotate(enabled=Count("configmodule", filter=Q(configmodule__enabled=True)))
             .order_by("-enabled")
         )
         return queryset
@@ -42,18 +37,20 @@ class UpdateModuleView(CreateView):
 
     def post(self, request, *args, **kwargs):
         module_id = request.POST.get("module")
+        action = request.POST.get("action")
         if not module_id:
             return HttpResponseRedirect(self.success_url)
         module = Module.objects.get(pk=module_id)
-        if not module:
-            return HttpResponseRedirect(self.success_url)
-        if request.user.subscriber.subscription.level == 0:
-            return HttpResponseRedirect(self.success_url)
-        if request.user.subscriber.subscription.level == 1:
-            if module.author != request.user:
+        if action == "enable":
+            if not module:
                 return HttpResponseRedirect(self.success_url)
+            if request.user.subscriber.subscription.level == 0:
+                return HttpResponseRedirect(self.success_url)
+            if request.user.subscriber.subscription.level == 1:
+                if module.author != request.user:
+                    return HttpResponseRedirect(self.success_url)
         config, created = ConfigModule.objects.get_or_create(module=module, user=request.user)
-        config.enabled = created or not config.enabled
+        config.enabled = action == "enable"
         config.save()
 
         return HttpResponseRedirect(self.success_url)
