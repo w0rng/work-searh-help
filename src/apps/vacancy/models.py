@@ -15,6 +15,8 @@ class Vacancy(Enemy):
 
     @hook(AFTER_CREATE)
     def export(self):
+        if self.source is not None:
+            return
         from api.v1.vacancy.serializers import VacancySerializer
         from apps.module.models import ConfigModule, Module, ModuleType
 
