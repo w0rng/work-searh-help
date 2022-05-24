@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "django_filters",
     "bootstrap4",
     "easy_select2",
+    "django_smoke_tests",
     "apps.module",
     "apps.user",
     "pages",

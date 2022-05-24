@@ -21,6 +21,7 @@ django-select2 = "*"
 django-easy-select2 = "*"
 django-redis = "*"
 django-jet-reboot = "*"
+django-smoke-tests = "*"
 
 [dev-packages]
 pytest-django = "*"
